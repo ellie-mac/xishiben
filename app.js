@@ -5,7 +5,7 @@ App({
       return
     }
     wx.cloud.init({
-      env: 'YOUR_ENV_ID', // 替换为你的云开发环境ID
+      env: 'cloud1-7g7ht2agd9fdfb7d', // 替换为你的云开发环境ID
       traceUser: true
     })
 

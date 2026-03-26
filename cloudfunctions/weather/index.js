@@ -9,7 +9,7 @@ const https = require('https')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 
 // 替换为你的和风天气API Key
-const QWEATHER_KEY = 'YOUR_QWEATHER_KEY'
+const QWEATHER_KEY = '5badfe04746d4bdb91bb35901759f75d'
 
 function httpsGet(url) {
   return new Promise((resolve, reject) => {
