@@ -4,7 +4,7 @@
 <view class="summary-card card">
   <view class="summary-row">
     <view class="summary-item">
-      <view class="summary-val">¥{{items.reduce((s,i)=>s+(i.quantity||0)*(i.unitPrice||0),0)}}</view>
+      <view class="summary-val">¥{{totalBudget}}</view>
       <view class="summary-label">总预算</view>
     </view>
     <view class="summary-divider"></view>

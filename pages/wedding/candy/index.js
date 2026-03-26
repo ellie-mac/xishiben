@@ -18,11 +18,12 @@ Page({
     const items = await query('candy_items')
     items.sort((a, b) => (a.purchased ? 1 : 0) - (b.purchased ? 1 : 0))
     const calcTotal = arr => arr.reduce((s, i) => s + (i.quantity || 0) * (i.unitPrice || 0), 0)
+    const totalBudget = calcTotal(items)
     const spentTotal = calcTotal(items.filter(i => i.purchased))
     const remainingTotal = calcTotal(items.filter(i => !i.purchased))
     const purchasedCount = items.filter(i => i.purchased).length
     const purchasedPct = items.length ? Math.round(purchasedCount / items.length * 100) : 0
-    this.setData({ items, spentTotal, remainingTotal, purchasedCount, purchasedPct })
+    this.setData({ items, totalBudget, spentTotal, remainingTotal, purchasedCount, purchasedPct })
   },
 
   getTotals() {
