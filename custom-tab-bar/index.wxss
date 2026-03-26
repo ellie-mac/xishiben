@@ -1,0 +1,38 @@
+.tab-bar {
+  display: flex;
+  height: 100rpx;
+  background: #fff;
+  border-top: 1rpx solid #f0e6e0;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4rpx;
+}
+
+.tab-emoji {
+  font-size: 44rpx;
+  line-height: 1;
+  filter: grayscale(100%);
+  opacity: 0.45;
+}
+
+.tab-text {
+  font-size: 20rpx;
+  color: #999;
+}
+
+.tab-item.active .tab-emoji {
+  filter: none;
+  opacity: 1;
+}
+
+.tab-item.active .tab-text {
+  color: #C9956C;
+  font-weight: 500;
+}

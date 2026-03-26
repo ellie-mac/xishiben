@@ -14,7 +14,8 @@ Page({
   },
 
   onLoad() { this.loadData() },
-  onShow() { this.loadData() },
+  onShow() {
+    const tabBar = this.getTabBar(); if (tabBar) tabBar.setData({ selected: 3 }); this.loadData() },
 
   async loadData() {
     showLoading('加载中...')

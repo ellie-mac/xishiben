@@ -1,4 +1,8 @@
 Page({
+  onShow() {
+    const tabBar = this.getTabBar()
+    if (tabBar) tabBar.setData({ selected: 1 })
+  },
   data: {
     modules: [
       { id: 'proposal', name: '求婚准备', icon: '💌', desc: '场地布置、戒指、誓言、策划', url: '/pages/proposal/tasks/index', color: '#FEE8ED' },

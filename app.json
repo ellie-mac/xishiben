@@ -19,41 +19,17 @@
     "pages/budget/detail/index"
   ],
   "tabBar": {
+    "custom": true,
     "color": "#999999",
     "selectedColor": "#C9956C",
     "backgroundColor": "#ffffff",
     "borderStyle": "white",
     "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "images/tab/home.png",
-        "selectedIconPath": "images/tab/home_active.png"
-      },
-      {
-        "pagePath": "pages/checklist/index",
-        "text": "清单",
-        "iconPath": "images/tab/list.png",
-        "selectedIconPath": "images/tab/list_active.png"
-      },
-      {
-        "pagePath": "pages/calendar/index",
-        "text": "吉日",
-        "iconPath": "images/tab/calendar.png",
-        "selectedIconPath": "images/tab/calendar_active.png"
-      },
-      {
-        "pagePath": "pages/budget/index/index",
-        "text": "预算",
-        "iconPath": "images/tab/budget.png",
-        "selectedIconPath": "images/tab/budget_active.png"
-      },
-      {
-        "pagePath": "pages/profile/index",
-        "text": "我们",
-        "iconPath": "images/tab/couple.png",
-        "selectedIconPath": "images/tab/couple_active.png"
-      }
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/checklist/index", "text": "清单" },
+      { "pagePath": "pages/calendar/index", "text": "吉日" },
+      { "pagePath": "pages/budget/index/index", "text": "预算" },
+      { "pagePath": "pages/profile/index", "text": "我们" }
     ]
   },
   "window": {
