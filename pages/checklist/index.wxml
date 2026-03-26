@@ -1,0 +1,39 @@
+<view class="page-title">备婚清单</view>
+<view class="module-list">
+  <view class="module-card" wx:for="{{modules}}" wx:key="id"
+    style="background:{{item.color}}" bindtap="goTo" data-url="{{item.url}}">
+    <view class="module-icon">{{item.icon}}</view>
+    <view class="module-info">
+      <view class="module-name">{{item.name}}</view>
+      <view class="module-desc">{{item.desc}}</view>
+    </view>
+    <text class="arrow" style="color:#C9956C">›</text>
+  </view>
+</view>
+
+<!-- 其他子模块入口 -->
+<view class="section-title">婚礼专项</view>
+<view class="grid-shortcuts">
+  <view class="grid-item" bindtap="goTo" data-url="/pages/wedding/party/index">
+    <text>👥</text><text>伴娘伴郎</text>
+  </view>
+  <view class="grid-item" bindtap="goTo" data-url="/pages/wedding/vendors/index">
+    <text>🤝</text><text>供应商</text>
+  </view>
+  <view class="grid-item" bindtap="goTo" data-url="/pages/wedding/candy/index">
+    <text>🍬</text><text>喜糖礼品</text>
+  </view>
+  <view class="grid-item" bindtap="goTo" data-url="/pages/wedding/invitation/index">
+    <text>💌</text><text>生成请柬</text>
+  </view>
+</view>
+
+<view class="section-title">求婚专项</view>
+<view class="grid-shortcuts">
+  <view class="grid-item" bindtap="goTo" data-url="/pages/proposal/venues/index">
+    <text>📍</text><text>场地推荐</text>
+  </view>
+  <view class="grid-item" bindtap="goTo" data-url="/pages/proposal/vows/index">
+    <text>💬</text><text>誓言模板</text>
+  </view>
+</view>

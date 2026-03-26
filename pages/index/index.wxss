@@ -1,0 +1,104 @@
+.container { padding-bottom: 40rpx; }
+
+/* 欢迎页 */
+.welcome-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 160rpx 60rpx;
+}
+.welcome-emoji { font-size: 120rpx; }
+.welcome-title { font-size: 44rpx; font-weight: 700; color: #333; margin-top: 40rpx; }
+.welcome-sub { font-size: 28rpx; color: #999; margin-top: 16rpx; text-align: center; }
+
+/* Header */
+.header {
+  padding: 60rpx 40rpx 30rpx;
+  text-align: center;
+}
+.header-names {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #333;
+}
+.heart { color: #E8B4B8; margin: 0 10rpx; }
+.header-sub { font-size: 26rpx; color: #999; margin-top: 12rpx; }
+
+/* 倒计时卡片 */
+.countdown-card {
+  margin: 0 32rpx 20rpx;
+  background: linear-gradient(135deg, #F9E4E8, #FBF0E8);
+  border-radius: 28rpx;
+  padding: 50rpx 40rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 30rpx rgba(232, 180, 184, 0.3);
+}
+.countdown-card.empty {
+  color: #C9956C;
+  font-size: 30rpx;
+  padding: 60rpx;
+}
+.countdown-label { font-size: 28rpx; color: #C9956C; }
+.countdown-number {
+  font-size: 120rpx;
+  font-weight: 800;
+  color: #C9956C;
+  line-height: 1.1;
+  letter-spacing: -4rpx;
+}
+.countdown-unit { font-size: 36rpx; color: #C9956C; font-weight: 500; }
+.countdown-date { font-size: 26rpx; color: #aaa; margin-top: 16rpx; }
+
+/* 纪念日 */
+.anniversary-scroll { white-space: nowrap; padding: 0 32rpx; }
+.anniversary-list { display: inline-flex; gap: 20rpx; padding-bottom: 8rpx; }
+.anniversary-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 36rpx;
+  box-shadow: 0 2rpx 16rpx rgba(201, 149, 108, 0.1);
+  min-width: 180rpx;
+}
+.anniversary-days { font-size: 28rpx; color: #C9956C; font-weight: 600; }
+.anniversary-label { font-size: 24rpx; color: #666; margin-top: 8rpx; }
+.anniversary-date { font-size: 22rpx; color: #bbb; margin-top: 6rpx; }
+
+/* 进度网格 */
+.progress-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+  padding: 0 32rpx;
+}
+.progress-item {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 16rpx rgba(201, 149, 108, 0.08);
+}
+.progress-icon { font-size: 48rpx; }
+.progress-name { font-size: 26rpx; color: #555; margin: 10rpx 0 16rpx; }
+.progress-pct { font-size: 24rpx; color: #C9956C; text-align: right; margin-top: 8rpx; }
+
+/* 快捷入口 */
+.shortcuts {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 0 32rpx;
+  gap: 16rpx;
+}
+.shortcut-item {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx 10rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  box-shadow: 0 2rpx 16rpx rgba(201, 149, 108, 0.08);
+}
+.shortcut-item text:first-child { font-size: 44rpx; }
+.shortcut-item text:last-child { font-size: 22rpx; color: #666; }

@@ -1,0 +1,59 @@
+<view class="page-title">婚礼请柬生成</view>
+
+<!-- 表单 -->
+<view class="card form-card">
+  <view class="form-group">
+    <label class="input-label">新郎姓名</label>
+    <input class="input-field" placeholder="输入新郎姓名" value="{{form.groomName}}" bindinput="onInput" data-key="groomName" />
+  </view>
+  <view class="form-group">
+    <label class="input-label">新娘姓名</label>
+    <input class="input-field" placeholder="输入新娘姓名" value="{{form.brideName}}" bindinput="onInput" data-key="brideName" />
+  </view>
+  <view class="form-group">
+    <label class="input-label">婚礼日期</label>
+    <picker mode="date" value="{{form.weddingDate}}" bindchange="onDateChange">
+      <view class="input-field {{form.weddingDate?'':'placeholder'}}">
+        {{form.weddingDate || '选择日期'}}
+      </view>
+    </picker>
+  </view>
+  <view class="form-group">
+    <label class="input-label">婚礼时间</label>
+    <input class="input-field" placeholder="如 18:00" value="{{form.weddingTime}}" bindinput="onInput" data-key="weddingTime" />
+  </view>
+  <view class="form-group">
+    <label class="input-label">婚礼场地名称</label>
+    <input class="input-field" placeholder="如：XX大酒店宴会厅" value="{{form.venue}}" bindinput="onInput" data-key="venue" />
+  </view>
+  <view class="form-group">
+    <label class="input-label">场地地址</label>
+    <input class="input-field" placeholder="详细地址" value="{{form.venueAddress}}" bindinput="onInput" data-key="venueAddress" />
+  </view>
+  <view class="form-group">
+    <label class="input-label">邀请语</label>
+    <textarea class="input-field" placeholder="写下对宾客的邀请语" value="{{form.extraMessage}}"
+      bindinput="onInput" data-key="extraMessage" style="height:100rpx" />
+  </view>
+  <button class="btn-primary" style="width:100%;margin-top:8rpx" bindtap="generateInvitation">生成请柬</button>
+</view>
+
+<!-- 隐藏canvas用于绘制 -->
+<canvas type="2d" id="invitationCanvas" style="width:600px;height:900px;position:fixed;left:-9999px;top:-9999px;"></canvas>
+
+<!-- 预览 -->
+<view class="preview-section" wx:if="{{previewImagePath}}">
+  <view class="section-title">请柬预览</view>
+  <view class="preview-wrap">
+    <image src="{{previewImagePath}}" mode="widthFix" class="preview-image" />
+  </view>
+  <view class="action-row">
+    <button class="btn-secondary" style="flex:1;margin-right:16rpx" bindtap="saveImage">
+      {{imageSaved?'✓ 已保存':'保存到相册'}}
+    </button>
+    <button class="btn-primary" style="flex:1" bindtap="shareInvitation">分享</button>
+  </view>
+  <view class="share-hint">长按图片可发送给好友</view>
+</view>
+
+<view style="height:60rpx"></view>

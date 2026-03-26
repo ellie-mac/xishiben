@@ -1,0 +1,129 @@
+<!-- 加载中 -->
+<view wx:if="{{state === 'loading'}}" class="loading-wrap">
+  <view>加载中...</view>
+</view>
+
+<!-- 初始设置页 -->
+<view wx:elif="{{state === 'setup'}}" class="setup-wrap">
+  <view class="setup-icon">💍</view>
+  <view class="setup-title">开始你们的备婚旅程</view>
+  <view class="setup-sub">创建新项目或加入TA的项目</view>
+
+  <button class="btn-primary setup-btn" bindtap="createProject">创建新项目</button>
+
+  <view class="divider-text">或者</view>
+
+  <view class="join-wrap">
+    <view class="join-label">输入另一半的邀请码</view>
+    <input class="input-field" placeholder="输入6位邀请码" value="{{inputCode}}"
+      bindinput="onInputCode" maxlength="6" style="text-transform:uppercase;letter-spacing:8rpx;text-align:center;font-size:36rpx" />
+    <button class="btn-secondary join-btn" bindtap="joinProject">加入</button>
+  </view>
+</view>
+
+<!-- 已加入项目 -->
+<view wx:elif="{{state === 'joined'}}" class="profile-wrap">
+
+  <!-- 情侣信息卡 -->
+  <view class="couple-card card">
+    <view class="couple-names">
+      <text>{{projectInfo.groomName || '新郎'}}</text>
+      <text class="heart"> 💕 </text>
+      <text>{{projectInfo.brideName || '新娘'}}</text>
+    </view>
+    <view class="couple-dates">
+      <view wx:if="{{projectInfo.weddingDate}}">婚礼日期：{{projectInfo.weddingDate}}</view>
+      <view wx:if="{{projectInfo.registrationDate}}">领证日期：{{projectInfo.registrationDate}}</view>
+      <view wx:if="{{projectInfo.proposalDate}}">求婚日期：{{projectInfo.proposalDate}}</view>
+      <view wx:if="{{projectInfo.city}}">城市：{{projectInfo.city}}</view>
+    </view>
+    <button class="btn-ghost edit-btn" bindtap="openEdit">编辑资料</button>
+  </view>
+
+  <!-- 操作列表 -->
+  <view class="list-section">
+    <view class="list-row" bindtap="showInvite">
+      <text class="list-row-title">邀请另一半加入</text>
+      <text class="list-row-value">{{projectInfo.inviteCode}}</text>
+      <text class="arrow">›</text>
+    </view>
+    <view class="list-row" open-type="share">
+      <text class="list-row-title">分享备婚进度给亲友（只读）</text>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+
+  <view style="height:40rpx"></view>
+
+  <view class="list-section">
+    <view class="list-row danger" bindtap="leaveProject">
+      <text class="list-row-title" style="color:#ff6b6b">退出当前项目</text>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+</view>
+
+<!-- 邀请码弹窗 -->
+<view class="modal-mask" wx:if="{{showInviteModal}}" bindtap="closeInvite">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">邀请另一半加入</view>
+    <view class="invite-code-display">{{inviteCode}}</view>
+    <view class="invite-tip">将邀请码发给TA，TA在「我们」页面输入即可加入</view>
+    <button class="btn-primary" style="width:100%;margin-top:40rpx" bindtap="copyCode">复制邀请码</button>
+  </view>
+</view>
+
+<!-- 编辑资料弹窗 -->
+<view class="modal-mask" wx:if="{{showEditModal}}">
+  <view class="modal-content edit-modal" catchtap="">
+    <view class="modal-title">编辑资料</view>
+    <scroll-view scroll-y style="max-height:70vh">
+      <view class="form-group">
+        <label class="input-label">新郎姓名</label>
+        <input class="input-field" placeholder="新郎的名字" value="{{editForm.groomName}}"
+          bindinput="onEditInput" data-key="groomName" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">新娘姓名</label>
+        <input class="input-field" placeholder="新娘的名字" value="{{editForm.brideName}}"
+          bindinput="onEditInput" data-key="brideName" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">婚礼日期</label>
+        <picker mode="date" value="{{editForm.weddingDate}}" bindchange="onEditInput" data-key="weddingDate">
+          <view class="input-field picker-field">
+            <text wx:if="{{editForm.weddingDate}}">{{editForm.weddingDate}}</text>
+            <text wx:else style="color:#bbb">选择日期</text>
+          </view>
+        </picker>
+      </view>
+      <view class="form-group">
+        <label class="input-label">领证日期</label>
+        <picker mode="date" value="{{editForm.registrationDate}}" bindchange="onEditInput" data-key="registrationDate">
+          <view class="input-field picker-field">
+            <text wx:if="{{editForm.registrationDate}}">{{editForm.registrationDate}}</text>
+            <text wx:else style="color:#bbb">选择日期</text>
+          </view>
+        </picker>
+      </view>
+      <view class="form-group">
+        <label class="input-label">求婚日期</label>
+        <picker mode="date" value="{{editForm.proposalDate}}" bindchange="onEditInput" data-key="proposalDate">
+          <view class="input-field picker-field">
+            <text wx:if="{{editForm.proposalDate}}">{{editForm.proposalDate}}</text>
+            <text wx:else style="color:#bbb">选择日期</text>
+          </view>
+        </picker>
+      </view>
+      <view class="form-group">
+        <label class="input-label">所在城市（用于天气查询）</label>
+        <input class="input-field" placeholder="如：北京" value="{{editForm.city}}"
+          bindinput="onEditInput" data-key="city" />
+      </view>
+    </scroll-view>
+    <view class="edit-btns">
+      <button class="btn-secondary" style="flex:1;margin-right:20rpx" bindtap="closeEdit">取消</button>
+      <button class="btn-primary" style="flex:1" bindtap="saveEdit">保存</button>
+    </view>
+  </view>
+</view>

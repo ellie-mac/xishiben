@@ -1,0 +1,22 @@
+.module-list { padding: 0 32rpx; display: flex; flex-direction: column; gap: 20rpx; }
+.module-card {
+  display: flex; align-items: center;
+  border-radius: 24rpx; padding: 36rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0,0,0,0.04);
+}
+.module-icon { font-size: 64rpx; margin-right: 28rpx; }
+.module-info { flex: 1; }
+.module-name { font-size: 32rpx; font-weight: 600; color: #333; }
+.module-desc { font-size: 24rpx; color: #888; margin-top: 8rpx; }
+
+.grid-shortcuts {
+  display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 0 32rpx; gap: 16rpx; margin-bottom: 8rpx;
+}
+.grid-item {
+  background: #fff; border-radius: 20rpx; padding: 28rpx 10rpx;
+  display: flex; flex-direction: column; align-items: center; gap: 10rpx;
+  box-shadow: 0 2rpx 12rpx rgba(201,149,108,0.08);
+}
+.grid-item text:first-child { font-size: 44rpx; }
+.grid-item text:last-child { font-size: 22rpx; color: #666; }

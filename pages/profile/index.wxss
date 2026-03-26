@@ -1,0 +1,56 @@
+.loading-wrap {
+  display: flex; justify-content: center; align-items: center;
+  height: 60vh; color: #bbb;
+}
+
+/* Setup */
+.setup-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 100rpx 60rpx 60rpx;
+}
+.setup-icon { font-size: 100rpx; }
+.setup-title { font-size: 40rpx; font-weight: 700; color: #333; margin-top: 40rpx; }
+.setup-sub { font-size: 28rpx; color: #999; margin-top: 16rpx; }
+.setup-btn { margin-top: 60rpx; width: 80%; }
+.divider-text { color: #bbb; margin: 40rpx 0; font-size: 26rpx; }
+.join-wrap { width: 100%; display: flex; flex-direction: column; gap: 24rpx; }
+.join-label { font-size: 28rpx; color: #666; }
+.join-btn { width: 100%; }
+
+/* Profile */
+.profile-wrap { padding-bottom: 60rpx; }
+.couple-card { text-align: center; }
+.couple-names { font-size: 44rpx; font-weight: 700; color: #333; }
+.heart { color: #E8B4B8; }
+.couple-dates { margin-top: 24rpx; color: #888; font-size: 26rpx; line-height: 2; }
+.edit-btn { color: #C9956C; margin-top: 24rpx; font-size: 28rpx; }
+
+.list-section {
+  background: #fff;
+  border-radius: 20rpx;
+  margin: 20rpx 32rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 20rpx rgba(201,149,108,0.08);
+}
+
+/* 邀请码显示 */
+.invite-code-display {
+  font-size: 72rpx;
+  font-weight: 800;
+  letter-spacing: 16rpx;
+  color: #C9956C;
+  text-align: center;
+  padding: 40rpx 0;
+  background: #FEF3E2;
+  border-radius: 20rpx;
+}
+.invite-tip { font-size: 26rpx; color: #999; text-align: center; margin-top: 20rpx; line-height: 1.6; }
+
+/* 编辑弹窗 */
+.edit-modal { padding-bottom: 80rpx; }
+.form-group { margin-bottom: 28rpx; }
+.picker-field { cursor: pointer; }
+.edit-btns {
+  display: flex;
+  margin-top: 40rpx;
+}

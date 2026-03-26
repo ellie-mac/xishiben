@@ -1,0 +1,107 @@
+<view class="container">
+
+  <!-- 未绑定项目时 -->
+  <block wx:if="{{!hasProject}}">
+    <view class="welcome-wrap">
+      <view class="welcome-emoji">💍</view>
+      <view class="welcome-title">欢迎使用喜事本</view>
+      <view class="welcome-sub">一站式备婚小程序，记录你们的幸福之路</view>
+      <button class="btn-primary" style="margin-top:60rpx" bindtap="goToProfile">开始使用</button>
+    </view>
+  </block>
+
+  <!-- 已绑定项目 -->
+  <block wx:else>
+
+    <!-- 顶部 Header -->
+    <view class="header">
+      <view class="header-names">
+        <text>{{projectInfo.groomName || '新郎'}}</text>
+        <text class="heart"> ❤ </text>
+        <text>{{projectInfo.brideName || '新娘'}}</text>
+      </view>
+      <view class="header-sub">幸福生活，从这里开始</view>
+    </view>
+
+    <!-- 婚礼倒计时主卡片 -->
+    <view class="countdown-card" wx:if="{{projectInfo.weddingDate}}">
+      <view class="countdown-label">距离婚礼</view>
+      <view class="countdown-number">{{weddingDays >= 0 ? weddingDays : 0}}</view>
+      <view class="countdown-unit">天</view>
+      <view class="countdown-date">{{projectInfo.weddingDate}}</view>
+    </view>
+    <view class="countdown-card empty" wx:else bindtap="goToProfile">
+      <text>点击设置婚礼日期 →</text>
+    </view>
+
+    <!-- 纪念日 -->
+    <view class="section-title">纪念日</view>
+    <scroll-view scroll-x class="anniversary-scroll">
+      <view class="anniversary-list">
+        <view class="anniversary-item" wx:for="{{anniversaries}}" wx:key="label">
+          <view class="anniversary-days">
+            <text wx:if="{{item.days >= 0}}">还有{{item.days}}天</text>
+            <text wx:else>已过{{-item.days}}天</text>
+          </view>
+          <view class="anniversary-label">{{item.label}}</view>
+          <view class="anniversary-date">{{item.date}}</view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- 备婚进度 -->
+    <view class="section-title">备婚进度</view>
+    <view class="progress-grid">
+      <view class="progress-item" bindtap="goTo" data-url="/pages/proposal/tasks/index">
+        <view class="progress-icon">💌</view>
+        <view class="progress-name">求婚准备</view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width:{{progress.proposal}}%"></view>
+        </view>
+        <view class="progress-pct">{{progress.proposal}}%</view>
+      </view>
+      <view class="progress-item" bindtap="goTo" data-url="/pages/wedding/tasks/index">
+        <view class="progress-icon">💒</view>
+        <view class="progress-name">婚礼筹备</view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width:{{progress.wedding}}%"></view>
+        </view>
+        <view class="progress-pct">{{progress.wedding}}%</view>
+      </view>
+      <view class="progress-item" bindtap="goTo" data-url="/pages/photos/index/index">
+        <view class="progress-icon">📷</view>
+        <view class="progress-name">婚纱照</view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width:{{progress.photos}}%"></view>
+        </view>
+        <view class="progress-pct">{{progress.photos}}%</view>
+      </view>
+      <view class="progress-item" bindtap="goTo" data-url="/pages/registration/index">
+        <view class="progress-icon">📋</view>
+        <view class="progress-name">领证攻略</view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width:{{progress.registration}}%"></view>
+        </view>
+        <view class="progress-pct">{{progress.registration}}%</view>
+      </view>
+    </view>
+
+    <!-- 快捷入口 -->
+    <view class="section-title">快捷入口</view>
+    <view class="shortcuts">
+      <view class="shortcut-item" bindtap="goTo" data-url="/pages/wedding/invitation/index">
+        <text>💌</text><text>生成请柬</text>
+      </view>
+      <view class="shortcut-item" bindtap="goTo" data-url="/pages/calendar/index">
+        <text>📅</text><text>挑吉日</text>
+      </view>
+      <view class="shortcut-item" bindtap="goTo" data-url="/pages/budget/index/index">
+        <text>💰</text><text>预算管理</text>
+      </view>
+      <view class="shortcut-item" bindtap="goTo" data-url="/pages/wedding/vendors/index">
+        <text>🤝</text><text>供应商</text>
+      </view>
+    </view>
+
+  </block>
+</view>

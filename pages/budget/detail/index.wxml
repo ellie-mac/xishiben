@@ -1,0 +1,131 @@
+<view class="page-title">{{categoryName}}</view>
+
+<!-- 摘要卡片 -->
+<view class="summary-card card">
+  <view class="summary-row">
+    <view class="summary-item">
+      <view class="summary-val budget">¥{{categoryBudgeted}}</view>
+      <view class="summary-label">预算</view>
+    </view>
+    <view class="summary-divider"></view>
+    <view class="summary-item">
+      <view class="summary-val estimated">¥{{estimatedTotal}}</view>
+      <view class="summary-label">预计合计</view>
+    </view>
+    <view class="summary-divider"></view>
+    <view class="summary-item">
+      <view class="summary-val actual">¥{{actualTotal}}</view>
+      <view class="summary-label">实际合计</view>
+    </view>
+    <view class="summary-divider"></view>
+    <view class="summary-item">
+      <view class="summary-val unpaid">¥{{unpaidTotal}}</view>
+      <view class="summary-label">未付款</view>
+    </view>
+  </view>
+
+  <!-- 预计 vs 实际 简易对比条 -->
+  <view style="margin-top:24rpx">
+    <view class="bar-label-row">
+      <text style="font-size:22rpx;color:#999">预算使用</text>
+      <text style="font-size:22rpx;color:#C9956C">{{categoryBudgeted?Math.min(100,Math.round(actualTotal/categoryBudgeted*100)):0}}%</text>
+    </view>
+    <view class="progress-bar" style="margin-top:8rpx">
+      <view class="progress-fill" style="width:{{categoryBudgeted?Math.min(100,Math.round(actualTotal/categoryBudgeted*100)):0}}%"></view>
+    </view>
+  </view>
+  <view style="margin-top:16rpx">
+    <view class="bar-label-row">
+      <text style="font-size:22rpx;color:#999">预计花费</text>
+      <text style="font-size:22rpx;color:#E88B4B">{{categoryBudgeted?Math.min(100,Math.round(estimatedTotal/categoryBudgeted*100)):0}}%</text>
+    </view>
+    <view class="progress-bar" style="margin-top:8rpx">
+      <view class="progress-fill estimated-bar"
+        style="width:{{categoryBudgeted?Math.min(100,Math.round(estimatedTotal/categoryBudgeted*100)):0}}%"></view>
+    </view>
+  </view>
+</view>
+
+<!-- 明细列表 -->
+<view wx:if="{{items.length===0}}" class="empty-state">
+  <text style="font-size:60rpx">📝</text>
+  <text>还没有明细，点击右下角添加</text>
+</view>
+
+<view class="item-list">
+  <view class="detail-item card" wx:for="{{items}}" wx:key="_id">
+    <view class="item-header">
+      <view class="paid-toggle" bindtap="toggleItemPaid" data-id="{{item._id}}" data-paid="{{item.paid}}">
+        <view class="check-circle {{item.paid?'checked':''}}">
+          <text wx:if="{{item.paid}}" style="color:#fff;font-size:22rpx">✓</text>
+        </view>
+      </view>
+      <view class="item-info">
+        <view class="item-name {{item.paid?'paid':''}}">{{item.name}}</view>
+        <view class="item-date" wx:if="{{item.date}}">{{item.date}}</view>
+        <view class="item-notes" wx:if="{{item.notes}}">{{item.notes}}</view>
+      </view>
+      <view class="item-amounts">
+        <view class="item-actual" wx:if="{{item.actual}}">¥{{item.actual}}</view>
+        <view class="item-estimated" wx:if="{{item.estimated && !item.actual}}">≈¥{{item.estimated}}</view>
+        <view class="item-estimated small" wx:if="{{item.actual && item.estimated}}">预计¥{{item.estimated}}</view>
+      </view>
+    </view>
+    <view class="item-actions">
+      <view class="action-btn edit-btn" bindtap="editItem" data-item="{{item}}">编辑</view>
+      <view class="action-btn del-btn" bindtap="deleteItem" data-id="{{item._id}}">删除</view>
+    </view>
+  </view>
+</view>
+
+<view style="height:160rpx"></view>
+
+<!-- FAB -->
+<view class="fab" bindtap="openAdd">
+  <text>+</text>
+</view>
+
+<!-- 弹窗 -->
+<view class="modal-mask" wx:if="{{showModal}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">{{editingId?'编辑明细':'添加明细'}}</view>
+    <scroll-view scroll-y style="max-height:65vh">
+      <view class="form-group">
+        <label class="input-label">项目名称</label>
+        <input class="input-field" placeholder="如：摄影定金" value="{{form.name}}" bindinput="onInput" data-key="name" />
+      </view>
+      <view style="display:flex;gap:16rpx">
+        <view class="form-group" style="flex:1">
+          <label class="input-label">预计金额</label>
+          <input class="input-field" placeholder="0" value="{{form.estimated}}" bindinput="onInput" data-key="estimated" type="digit" />
+        </view>
+        <view class="form-group" style="flex:1">
+          <label class="input-label">实际金额</label>
+          <input class="input-field" placeholder="0" value="{{form.actual}}" bindinput="onInput" data-key="actual" type="digit" />
+        </view>
+      </view>
+      <view class="form-group">
+        <label class="input-label">日期</label>
+        <picker mode="date" value="{{form.date}}" bindchange="onDateChange">
+          <view class="input-field {{form.date?'':'placeholder'}}">{{form.date||'选择日期'}}</view>
+        </picker>
+      </view>
+      <view class="form-group">
+        <label class="input-label">付款状态</label>
+        <view class="paid-toggle-row input-field" bindtap="togglePaid">
+          <text>{{form.paid?'已付款':'未付款'}}</text>
+          <view class="toggle {{form.paid?'on':''}}"></view>
+        </view>
+      </view>
+      <view class="form-group">
+        <label class="input-label">备注</label>
+        <textarea class="input-field" placeholder="合同编号、付款方式等" value="{{form.notes}}"
+          bindinput="onInput" data-key="notes" style="height:100rpx" />
+      </view>
+    </scroll-view>
+    <view style="display:flex;gap:20rpx;margin-top:20rpx">
+      <button class="btn-secondary" style="flex:1" bindtap="closeModal">取消</button>
+      <button class="btn-primary" style="flex:1" bindtap="saveItem">保存</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,116 @@
+<view class="page-title">伴娘伴郎</view>
+
+<!-- 统计 -->
+<view class="stats-row">
+  <view class="stat-item">
+    <view class="stat-num">{{members.filter(m=>m.role==='伴娘').length}}</view>
+    <view class="stat-label">伴娘</view>
+  </view>
+  <view class="stat-divider"></view>
+  <view class="stat-item">
+    <view class="stat-num">{{members.filter(m=>m.role==='伴郎').length}}</view>
+    <view class="stat-label">伴郎</view>
+  </view>
+  <view class="stat-divider"></view>
+  <view class="stat-item">
+    <view class="stat-num">{{members.length}}</view>
+    <view class="stat-label">总计</view>
+  </view>
+</view>
+
+<!-- 成员列表 -->
+<view wx:if="{{members.length===0}}" class="empty-state">
+  <text style="font-size:60rpx">👫</text>
+  <text>还没有添加伴娘伴郎</text>
+</view>
+
+<!-- 伴娘组 -->
+<view wx:if="{{members.filter(m=>m.role==='伴娘').length>0}}">
+  <view class="section-title">伴娘团</view>
+  <view class="member-card card" wx:for="{{members}}" wx:key="_id" wx:if="{{item.role==='伴娘'}}">
+    <view class="member-header">
+      <view class="member-avatar bridesmaid">{{item.name[0]}}</view>
+      <view class="member-info">
+        <view class="member-name">{{item.name}}</view>
+        <view class="member-phone" wx:if="{{item.phone}}">{{item.phone}}</view>
+      </view>
+      <view class="member-actions">
+        <view class="action-icon" bindtap="callMember" data-phone="{{item.phone}}">📞</view>
+        <view class="action-icon" bindtap="editMember" data-member="{{item}}">✏️</view>
+        <view class="action-icon del" bindtap="deleteMember" data-id="{{item._id}}">🗑</view>
+      </view>
+    </view>
+    <view class="duties-row" wx:if="{{item.duties && item.duties.length>0}}">
+      <view class="duty-tag" wx:for="{{item.duties}}" wx:key="*this" wx:for-item="duty">{{duty}}</view>
+    </view>
+  </view>
+</view>
+
+<!-- 伴郎组 -->
+<view wx:if="{{members.filter(m=>m.role==='伴郎').length>0}}">
+  <view class="section-title">伴郎团</view>
+  <view class="member-card card" wx:for="{{members}}" wx:key="_id" wx:if="{{item.role==='伴郎'}}">
+    <view class="member-header">
+      <view class="member-avatar groomsman">{{item.name[0]}}</view>
+      <view class="member-info">
+        <view class="member-name">{{item.name}}</view>
+        <view class="member-phone" wx:if="{{item.phone}}">{{item.phone}}</view>
+      </view>
+      <view class="member-actions">
+        <view class="action-icon" bindtap="callMember" data-phone="{{item.phone}}">📞</view>
+        <view class="action-icon" bindtap="editMember" data-member="{{item}}">✏️</view>
+        <view class="action-icon del" bindtap="deleteMember" data-id="{{item._id}}">🗑</view>
+      </view>
+    </view>
+    <view class="duties-row" wx:if="{{item.duties && item.duties.length>0}}">
+      <view class="duty-tag" wx:for="{{item.duties}}" wx:key="*this" wx:for-item="duty">{{duty}}</view>
+    </view>
+  </view>
+</view>
+
+<view style="height:160rpx"></view>
+
+<!-- FAB -->
+<view class="fab" bindtap="openAdd">
+  <text>+</text>
+</view>
+
+<!-- 添加/编辑弹窗 -->
+<view class="modal-mask" wx:if="{{showModal}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">{{editingId?'编辑成员':'添加成员'}}</view>
+    <scroll-view scroll-y style="max-height:65vh">
+      <view class="form-group">
+        <label class="input-label">姓名</label>
+        <input class="input-field" placeholder="输入姓名" value="{{form.name}}" bindinput="onInput" data-key="name" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">角色</label>
+        <picker range="{{ROLES}}" value="{{ROLES.indexOf(form.role)}}" bindchange="onRolePick">
+          <view class="input-field">{{form.role}}</view>
+        </picker>
+      </view>
+      <view class="form-group">
+        <label class="input-label">电话</label>
+        <input class="input-field" placeholder="输入联系电话" value="{{form.phone}}"
+          bindinput="onInput" data-key="phone" type="number" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">职责（可多选）</label>
+        <view class="duty-check-list">
+          <view class="duty-check-item" wx:for="{{PARTY_DUTIES}}" wx:key="*this"
+            bindtap="toggleDuty" data-idx="{{index}}">
+            <view class="duty-check-box {{dutyChecked[index]?'checked':''}}">
+              <text wx:if="{{dutyChecked[index]}}" style="color:#fff;font-size:20rpx">✓</text>
+            </view>
+            <text class="duty-check-text">{{item}}</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+    <view style="display:flex;gap:20rpx;margin-top:20rpx">
+      <button class="btn-secondary" style="flex:1" bindtap="closeModal">取消</button>
+      <button class="btn-primary" style="flex:1" bindtap="saveMember">保存</button>
+    </view>
+  </view>
+</view>

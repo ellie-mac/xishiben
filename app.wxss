@@ -1,0 +1,256 @@
+/* 全局样式 */
+page {
+  background-color: #FDF8F5;
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #333333;
+  font-size: 28rpx;
+}
+
+/* 通用卡片 */
+.card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 32rpx;
+  margin: 20rpx 32rpx;
+  box-shadow: 0 2rpx 20rpx rgba(201, 149, 108, 0.08);
+}
+
+/* 通用按钮 */
+.btn-primary {
+  background: linear-gradient(135deg, #E8B4B8, #C9956C);
+  color: #fff;
+  border-radius: 50rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  border: none;
+  padding: 20rpx 60rpx;
+}
+
+.btn-secondary {
+  background: #fff;
+  color: #C9956C;
+  border: 2rpx solid #C9956C;
+  border-radius: 50rpx;
+  font-size: 30rpx;
+  padding: 18rpx 60rpx;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #C9956C;
+  font-size: 28rpx;
+  border: none;
+  padding: 0;
+}
+
+/* 页面标题 */
+.page-title {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #333;
+  padding: 40rpx 32rpx 20rpx;
+}
+
+/* 节标题 */
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #555;
+  padding: 24rpx 32rpx 16rpx;
+  display: flex;
+  align-items: center;
+}
+
+.section-title::before {
+  content: '';
+  width: 6rpx;
+  height: 32rpx;
+  background: linear-gradient(180deg, #E8B4B8, #C9956C);
+  border-radius: 3rpx;
+  margin-right: 16rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+  color: #bbb;
+}
+
+.empty-state text {
+  font-size: 28rpx;
+  margin-top: 20rpx;
+}
+
+/* 标签 */
+.tag {
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+  display: inline-block;
+}
+
+.tag-pink { background: #FEE8ED; color: #E8B4B8; }
+.tag-gold { background: #FEF3E2; color: #C9956C; }
+.tag-green { background: #E8F5E9; color: #66BB6A; }
+.tag-gray { background: #F5F5F5; color: #999; }
+
+/* 分割线 */
+.divider {
+  height: 1rpx;
+  background: #F5EDE8;
+  margin: 0 32rpx;
+}
+
+/* 勾选框 */
+.checkbox-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #F5EDE8;
+}
+
+.checkbox-circle {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  border: 3rpx solid #ddd;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.checkbox-circle.checked {
+  background: linear-gradient(135deg, #E8B4B8, #C9956C);
+  border-color: #C9956C;
+}
+
+.checkbox-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+}
+
+.checkbox-text.checked {
+  color: #bbb;
+  text-decoration: line-through;
+}
+
+/* 浮动按钮 */
+.fab {
+  position: fixed;
+  right: 40rpx;
+  bottom: 120rpx;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E8B4B8, #C9956C);
+  box-shadow: 0 8rpx 30rpx rgba(201, 149, 108, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.fab text {
+  color: #fff;
+  font-size: 50rpx;
+  line-height: 1;
+  margin-top: -4rpx;
+}
+
+/* 模态框遮罩 */
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 32rpx 32rpx 0 0;
+  padding: 40rpx 32rpx 60rpx;
+  width: 100%;
+}
+
+.modal-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+
+/* 进度条 */
+.progress-bar {
+  height: 10rpx;
+  background: #F5EDE8;
+  border-radius: 5rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #E8B4B8, #C9956C);
+  border-radius: 5rpx;
+  transition: width 0.5s ease;
+}
+
+/* 输入框 */
+.input-field {
+  background: #FDF8F5;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  font-size: 28rpx;
+  color: #333;
+  border: 2rpx solid #F0E6E0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-field:focus {
+  border-color: #C9956C;
+}
+
+.input-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+  display: block;
+}
+
+/* 列表行 */
+.list-row {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 32rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #F5EDE8;
+}
+
+.list-row-title {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.list-row-value {
+  font-size: 28rpx;
+  color: #999;
+  margin-right: 12rpx;
+}
+
+.arrow {
+  color: #ccc;
+  font-size: 28rpx;
+}

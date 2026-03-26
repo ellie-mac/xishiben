@@ -1,0 +1,159 @@
+<view class="page-title">领证攻略</view>
+
+<!-- Tab 切换 -->
+<view class="tab-bar">
+  <view class="tab-item {{activeTab==='checklist'?'active':''}}" bindtap="switchTab" data-tab="checklist">材料清单</view>
+  <view class="tab-item {{activeTab==='weather'?'active':''}}" bindtap="switchTab" data-tab="weather">天气建议</view>
+</view>
+
+<!-- 材料清单 Tab -->
+<view wx:if="{{activeTab==='checklist'}}">
+  <!-- 进度 -->
+  <view class="card" style="margin-top:0;padding:24rpx 32rpx">
+    <view style="display:flex;justify-content:space-between;margin-bottom:12rpx">
+      <text style="font-size:26rpx;color:#666">准备进度</text>
+      <text style="font-size:26rpx;color:#C9956C">{{items.filter(i=>i.completed).length}}/{{items.length}}</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width:{{items.length?items.filter(i=>i.completed).length/items.length*100:0}}%"></view>
+    </view>
+  </view>
+
+  <!-- 分类筛选 -->
+  <scroll-view scroll-x class="cat-scroll">
+    <view class="cat-list">
+      <view class="cat-item {{activeCat===item?'active':''}}" wx:for="{{CATEGORIES}}" wx:key="*this"
+        bindtap="switchCat" data-cat="{{item}}">{{item}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 清单 -->
+  <view class="task-list">
+    <block wx:for="{{items}}" wx:key="_id">
+      <block wx:if="{{activeCat==='全部' || item.category===activeCat}}">
+        <view class="task-item">
+          <view class="checkbox-circle {{item.completed?'checked':''}}"
+            bindtap="toggleItem" data-id="{{item._id}}" data-completed="{{item.completed}}">
+            <text wx:if="{{item.completed}}" style="color:#fff;font-size:24rpx">✓</text>
+          </view>
+          <view class="task-body">
+            <view class="task-title {{item.completed?'checked':''}}">{{item.title}}</view>
+            <view class="task-desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+            <view class="tag tag-gray" style="margin-top:10rpx">{{item.category}}</view>
+          </view>
+          <view class="task-del" bindtap="deleteItem" data-id="{{item._id}}">✕</view>
+        </view>
+      </block>
+    </block>
+    <view class="empty-state" wx:if="{{items.length===0}}">
+      <text style="font-size:60rpx">💍</text>
+      <text>还没有材料清单，点击导入模板</text>
+    </view>
+  </view>
+
+  <view class="bottom-btns">
+    <button class="btn-secondary" style="flex:1;margin-right:16rpx" bindtap="openTemplates">导入模板</button>
+    <button class="btn-primary" style="flex:1" bindtap="openAdd">+ 添加</button>
+  </view>
+</view>
+
+<!-- 天气建议 Tab -->
+<view wx:if="{{activeTab==='weather'}}">
+  <!-- 领证日期信息 -->
+  <view class="card weather-info-card">
+    <view class="date-row">
+      <view class="date-label">领证日期</view>
+      <view class="date-val" wx:if="{{registrationDate}}">{{registrationDate}}</view>
+      <view class="date-val no-date" wx:else>未设置</view>
+    </view>
+    <view class="date-row" wx:if="{{city}}">
+      <view class="date-label">城市</view>
+      <view class="date-val">{{city}}</view>
+    </view>
+    <view class="countdown-row" wx:if="{{daysUntil!==null}}">
+      <text wx:if="{{daysUntil>0}}" style="color:#C9956C">还有 {{daysUntil}} 天领证！</text>
+      <text wx:elif="{{daysUntil===0}}" style="color:#E8B4B8">今天就是领证日！</text>
+      <text wx:else style="color:#999">领证已过 {{-daysUntil}} 天</text>
+    </view>
+
+    <!-- 超7天提示 -->
+    <view class="weather-notice" wx:if="{{daysUntil!==null && daysUntil>7}}">
+      <text>距离领证还有 {{daysUntil}} 天，天气预报尚不可用（通常只能预报7天内）。快到日期时再来查看吧！</text>
+    </view>
+
+    <button class="btn-primary" style="width:100%;margin-top:24rpx"
+      bindtap="queryWeather"
+      wx:if="{{registrationDate && city && daysUntil<=7}}">
+      {{weatherLoading?'查询中...':'查询当天天气'}}
+    </button>
+
+    <view class="no-info-tip" wx:if="{{!registrationDate || !city}}">
+      请先在「我的信息」中完善领证日期和城市信息
+    </view>
+  </view>
+
+  <!-- 天气结果 -->
+  <view class="weather-result card" wx:if="{{weatherResult}}">
+    <view class="weather-main">
+      <view class="weather-temp">{{weatherResult.temp}}°C</view>
+      <view class="weather-desc">{{weatherResult.desc || weatherResult.weather}}</view>
+    </view>
+    <view class="weather-details" wx:if="{{weatherResult.humidity || weatherResult.wind}}">
+      <view class="w-detail-item" wx:if="{{weatherResult.humidity}}">
+        <text class="w-detail-label">湿度</text>
+        <text>{{weatherResult.humidity}}%</text>
+      </view>
+      <view class="w-detail-item" wx:if="{{weatherResult.wind}}">
+        <text class="w-detail-label">风速</text>
+        <text>{{weatherResult.wind}}</text>
+      </view>
+    </view>
+    <view class="outfit-section" wx:if="{{outfitSuggestion}}">
+      <view class="outfit-title">👗 着装建议</view>
+      <view class="outfit-content">{{outfitSuggestion}}</view>
+    </view>
+  </view>
+</view>
+
+<!-- 添加弹窗 -->
+<view class="modal-mask" wx:if="{{showAddModal}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">添加材料</view>
+    <view class="form-group">
+      <label class="input-label">名称</label>
+      <input class="input-field" placeholder="输入材料名称" value="{{addForm.title}}" bindinput="onAddInput" data-key="title" />
+    </view>
+    <view class="form-group">
+      <label class="input-label">说明（可选）</label>
+      <textarea class="input-field" placeholder="详细说明" value="{{addForm.desc}}" bindinput="onAddInput" data-key="desc" style="height:100rpx" />
+    </view>
+    <view class="form-group">
+      <label class="input-label">分类</label>
+      <picker range="{{['证件','照片','提前了解','当天安排']}}"
+        value="{{['证件','照片','提前了解','当天安排'].indexOf(addForm.category)}}"
+        bindchange="onCatPick">
+        <view class="input-field">{{addForm.category}}</view>
+      </picker>
+    </view>
+    <view style="display:flex;gap:20rpx;margin-top:16rpx">
+      <button class="btn-secondary" style="flex:1" bindtap="closeAdd">取消</button>
+      <button class="btn-primary" style="flex:1" bindtap="saveAdd">添加</button>
+    </view>
+  </view>
+</view>
+
+<!-- 模板弹窗 -->
+<view class="modal-mask" wx:if="{{showTemplates}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">领证材料模板</view>
+    <button class="btn-primary" style="width:100%;margin-bottom:20rpx" bindtap="importAllTemplates">一键导入全部</button>
+    <scroll-view scroll-y style="max-height:60vh">
+      <view class="tpl-item" wx:for="{{templateList}}" wx:key="title" bindtap="importTemplate" data-tpl="{{item}}">
+        <view class="tpl-tag tag tag-pink">{{item.category}}</view>
+        <view class="tpl-title">{{item.title}}</view>
+        <view class="tpl-add">+</view>
+      </view>
+    </scroll-view>
+    <button class="btn-ghost" style="width:100%;margin-top:16rpx;color:#999" bindtap="closeTemplates">关闭</button>
+  </view>
+</view>

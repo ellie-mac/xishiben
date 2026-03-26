@@ -1,0 +1,112 @@
+<view class="page-title">婚纱照攻略</view>
+
+<!-- Tab 切换 -->
+<view class="tab-bar">
+  <view class="tab-item {{activeTab==='guide'?'active':''}}" bindtap="switchTab" data-tab="guide">攻略</view>
+  <view class="tab-item {{activeTab==='checklist'?'active':''}}" bindtap="switchTab" data-tab="checklist">清单</view>
+  <view class="tab-item" bindtap="switchTab" data-tab="compare">套餐对比</view>
+</view>
+
+<!-- 攻略 Tab -->
+<view wx:if="{{activeTab==='guide'}}">
+  <view class="guide-card card" wx:for="{{guideSections}}" wx:key="title">
+    <view class="guide-title">{{item.title}}</view>
+    <view class="guide-content">{{item.content}}</view>
+  </view>
+</view>
+
+<!-- 清单 Tab -->
+<view wx:if="{{activeTab==='checklist'}}">
+  <!-- 进度 -->
+  <view class="card" style="margin-top:0;padding:24rpx 32rpx">
+    <view style="display:flex;justify-content:space-between;margin-bottom:12rpx">
+      <text style="font-size:26rpx;color:#666">完成进度</text>
+      <text style="font-size:26rpx;color:#C9956C">{{checkItems.filter(i=>i.completed).length}}/{{checkItems.length}}</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width:{{checkItems.length?checkItems.filter(i=>i.completed).length/checkItems.length*100:0}}%"></view>
+    </view>
+  </view>
+
+  <!-- 分类筛选 -->
+  <scroll-view scroll-x class="cat-scroll">
+    <view class="cat-list">
+      <view class="cat-item {{activeCat===item?'active':''}}" wx:for="{{CATEGORIES}}" wx:key="*this"
+        bindtap="switchCat" data-cat="{{item}}">{{item}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 清单项 -->
+  <view class="task-list">
+    <block wx:for="{{checkItems}}" wx:key="_id">
+      <block wx:if="{{activeCat==='全部' || item.category===activeCat}}">
+        <view class="task-item">
+          <view class="checkbox-circle {{item.completed?'checked':''}}"
+            bindtap="toggleItem" data-id="{{item._id}}" data-completed="{{item.completed}}">
+            <text wx:if="{{item.completed}}" style="color:#fff;font-size:24rpx">✓</text>
+          </view>
+          <view class="task-body">
+            <view class="task-title {{item.completed?'checked':''}}">{{item.title}}</view>
+            <view class="task-desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+            <view class="tag tag-gray" style="margin-top:10rpx">{{item.category}}</view>
+          </view>
+          <view class="task-del" bindtap="deleteItem" data-id="{{item._id}}">✕</view>
+        </view>
+      </block>
+    </block>
+
+    <view class="empty-state" wx:if="{{checkItems.length===0}}">
+      <text style="font-size:60rpx">📸</text>
+      <text>还没有清单，点击导入模板</text>
+    </view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="bottom-btns">
+    <button class="btn-secondary" style="flex:1;margin-right:16rpx" bindtap="openTemplates">导入模板</button>
+    <button class="btn-primary" style="flex:1" bindtap="openAdd">+ 添加</button>
+  </view>
+</view>
+
+<!-- 添加弹窗 -->
+<view class="modal-mask" wx:if="{{showAddModal}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">添加清单项</view>
+    <view class="form-group">
+      <label class="input-label">标题</label>
+      <input class="input-field" placeholder="输入项目名称" value="{{addForm.title}}" bindinput="onAddInput" data-key="title" />
+    </view>
+    <view class="form-group">
+      <label class="input-label">说明（可选）</label>
+      <textarea class="input-field" placeholder="添加备注" value="{{addForm.desc}}" bindinput="onAddInput" data-key="desc" style="height:100rpx" />
+    </view>
+    <view class="form-group">
+      <label class="input-label">分类</label>
+      <picker range="{{['选店','谈套餐','场景选择','妆容服装','拍摄前准备','精修选片']}}"
+        value="{{['选店','谈套餐','场景选择','妆容服装','拍摄前准备','精修选片'].indexOf(addForm.category)}}"
+        bindchange="onCatPick">
+        <view class="input-field">{{addForm.category}}</view>
+      </picker>
+    </view>
+    <view style="display:flex;gap:20rpx;margin-top:16rpx">
+      <button class="btn-secondary" style="flex:1" bindtap="closeAdd">取消</button>
+      <button class="btn-primary" style="flex:1" bindtap="saveAdd">添加</button>
+    </view>
+  </view>
+</view>
+
+<!-- 模板弹窗 -->
+<view class="modal-mask" wx:if="{{showTemplates}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">婚纱照清单模板</view>
+    <button class="btn-primary" style="width:100%;margin-bottom:20rpx" bindtap="importAllTemplates">一键导入全部</button>
+    <scroll-view scroll-y style="max-height:60vh">
+      <view class="tpl-item" wx:for="{{templateList}}" wx:key="title" bindtap="importTemplate" data-tpl="{{item}}">
+        <view class="tpl-tag tag tag-pink">{{item.category}}</view>
+        <view class="tpl-title">{{item.title}}</view>
+        <view class="tpl-add">+</view>
+      </view>
+    </scroll-view>
+    <button class="btn-ghost" style="width:100%;margin-top:16rpx;color:#999" bindtap="closeTemplates">关闭</button>
+  </view>
+</view>

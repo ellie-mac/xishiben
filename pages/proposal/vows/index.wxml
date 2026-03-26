@@ -1,0 +1,68 @@
+<view class="page-title">求婚誓言</view>
+
+<!-- Tab 切换 -->
+<view class="tab-bar">
+  <view class="tab-item {{activeTab==='templates'?'active':''}}" bindtap="switchTab" data-tab="templates">模板誓言</view>
+  <view class="tab-item {{activeTab==='mine'?'active':''}}" bindtap="switchTab" data-tab="mine">我的誓言</view>
+</view>
+
+<!-- 模板誓言 -->
+<view wx:if="{{activeTab==='templates'}}">
+  <view class="hint-text">点击「使用此模板」复制到我的誓言，然后编辑成专属版本</view>
+  <view class="vow-card card" wx:for="{{templates}}" wx:key="title">
+    <view class="vow-title">{{item.title}}</view>
+    <view class="vow-content">{{item.content}}</view>
+    <button class="use-btn" bindtap="duplicateTemplate" data-tpl="{{item}}">使用此模板</button>
+  </view>
+</view>
+
+<!-- 我的誓言 -->
+<view wx:if="{{activeTab==='mine'}}">
+  <view wx:if="{{myVows.length===0}}" class="empty-state">
+    <text style="font-size:60rpx">💌</text>
+    <text>还没有誓言，去模板中复制或自己写</text>
+  </view>
+
+  <view class="vow-card card" wx:for="{{myVows}}" wx:key="_id">
+    <view class="vow-header">
+      <view class="vow-title">{{item.title}}</view>
+      <view class="selected-badge" wx:if="{{item.selected}}">已选用</view>
+    </view>
+    <view class="vow-content">{{item.content}}</view>
+    <view class="vow-actions">
+      <view class="action-btn select-btn {{item.selected?'selected':''}}"
+        bindtap="selectVow" data-id="{{item._id}}">
+        {{item.selected ? '✓ 已选用' : '设为选用'}}
+      </view>
+      <view class="action-btn edit-btn" bindtap="editVow" data-vow="{{item}}">编辑</view>
+      <view class="action-btn del-btn" bindtap="deleteVow" data-id="{{item._id}}">删除</view>
+    </view>
+  </view>
+
+  <view style="height:160rpx"></view>
+</view>
+
+<!-- 添加按钮 -->
+<view class="fab" wx:if="{{activeTab==='mine'}}" bindtap="openAdd">
+  <text>+</text>
+</view>
+
+<!-- 编辑/添加弹窗 -->
+<view class="modal-mask" wx:if="{{showModal}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">{{editingId?'编辑誓言':'新建誓言'}}</view>
+    <view class="form-group">
+      <label class="input-label">标题</label>
+      <input class="input-field" placeholder="给这篇誓言起个名字" value="{{form.title}}" bindinput="onInput" data-key="title" />
+    </view>
+    <view class="form-group">
+      <label class="input-label">誓言内容</label>
+      <textarea class="input-field" placeholder="写下你的求婚誓言..." value="{{form.content}}"
+        bindinput="onInput" data-key="content" style="height:280rpx;line-height:1.8" />
+    </view>
+    <view style="display:flex;gap:20rpx;margin-top:16rpx">
+      <button class="btn-secondary" style="flex:1" bindtap="closeModal">取消</button>
+      <button class="btn-primary" style="flex:1" bindtap="saveVow">保存</button>
+    </view>
+  </view>
+</view>

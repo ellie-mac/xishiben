@@ -1,0 +1,79 @@
+<view class="page-title">婚礼预算</view>
+
+<!-- 汇总卡片 -->
+<view class="summary-card card">
+  <view class="summary-title">预算总览</view>
+  <view class="summary-row">
+    <view class="summary-item">
+      <view class="summary-val">¥{{totalBudget}}</view>
+      <view class="summary-label">总预算</view>
+    </view>
+    <view class="summary-divider"></view>
+    <view class="summary-item">
+      <view class="summary-val spent">¥{{totalSpent}}</view>
+      <view class="summary-label">已花费</view>
+    </view>
+    <view class="summary-divider"></view>
+    <view class="summary-item">
+      <view class="summary-val {{totalRemaining>=0?'remaining':'over'}}">¥{{totalRemaining}}</view>
+      <view class="summary-label">{{totalRemaining>=0?'剩余':'超支'}}</view>
+    </view>
+  </view>
+  <!-- 总进度条 -->
+  <view style="margin-top:20rpx">
+    <view style="display:flex;justify-content:space-between;margin-bottom:8rpx">
+      <text style="font-size:24rpx;color:#999">总体使用率</text>
+      <text style="font-size:24rpx;color:#C9956C">{{totalBudget?Math.round(totalSpent/totalBudget*100):0}}%</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill {{totalSpent>totalBudget?'over':''}}"
+        style="width:{{totalBudget?Math.min(100,Math.round(totalSpent/totalBudget*100)):0}}%"></view>
+    </view>
+  </view>
+</view>
+
+<!-- 空状态 - 未初始化 -->
+<view wx:if="{{categories.length===0}}" class="empty-state">
+  <text style="font-size:60rpx">💰</text>
+  <text>还没有预算分类</text>
+  <button class="btn-primary" style="margin-top:32rpx" bindtap="initFromTemplates">初始化默认分类</button>
+</view>
+
+<!-- 分类列表 -->
+<view class="section-title" wx:if="{{categories.length>0}}">各分类预算</view>
+<view class="cat-list">
+  <view class="cat-card card" wx:for="{{categories}}" wx:key="_id"
+    bindtap="goToDetail" data-id="{{item._id}}" data-name="{{item.name}}">
+    <view class="cat-header">
+      <view class="cat-icon">{{item.icon}}</view>
+      <view class="cat-info">
+        <view class="cat-name">{{item.name}}</view>
+        <view class="cat-amounts">
+          <text class="amount-spent">¥{{item.spent||0}}</text>
+          <text class="amount-sep"> / </text>
+          <!-- 编辑预算 -->
+          <view wx:if="{{editingBudget===item._id}}" catchtap="" style="display:inline-flex;align-items:center;gap:8rpx">
+            <input class="budget-input" value="{{budgetInput}}" bindinput="onBudgetInput" type="digit" catchtap="" />
+            <text class="save-btn" catchtap="" bindtap="saveBudget">✓</text>
+            <text class="cancel-btn" catchtap="" bindtap="cancelEdit">✕</text>
+          </view>
+          <text wx:else class="amount-budget" catchtap="" bindtap="startEditBudget"
+            data-id="{{item._id}}" data-budgeted="{{item.budgeted}}">¥{{item.budgeted||0}}</text>
+        </view>
+      </view>
+      <view class="cat-pct {{item.spent>item.budgeted?'over':''}}">
+        {{item.budgeted?Math.min(100,Math.round((item.spent||0)/item.budgeted*100)):0}}%
+      </view>
+    </view>
+    <view class="progress-bar" style="margin-top:16rpx">
+      <view class="progress-fill {{item.spent>item.budgeted?'over':''}}"
+        style="width:{{item.budgeted?Math.min(100,Math.round((item.spent||0)/item.budgeted*100)):0}}%"></view>
+    </view>
+    <view class="cat-footer">
+      <text style="font-size:22rpx;color:#bbb">点击查看明细</text>
+      <text class="del-link" catchtap="" bindtap="deleteCategory" data-id="{{item._id}}">删除</text>
+    </view>
+  </view>
+</view>
+
+<view style="height:60rpx"></view>

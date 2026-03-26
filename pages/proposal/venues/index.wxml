@@ -1,0 +1,120 @@
+<view class="page-title">求婚场地推荐</view>
+
+<!-- Tab 切换 -->
+<view class="tab-bar">
+  <view class="tab-item {{activeTab==='examples'?'active':''}}" bindtap="switchTab" data-tab="examples">精选示例</view>
+  <view class="tab-item {{activeTab==='mine'?'active':''}}" bindtap="switchTab" data-tab="mine">我的场地</view>
+</view>
+
+<!-- 类型筛选 -->
+<scroll-view scroll-x class="cat-scroll">
+  <view class="cat-list">
+    <view class="cat-item {{activeType===item?'active':''}}" wx:for="{{TYPES}}" wx:key="*this"
+      bindtap="switchType" data-type="{{item}}">{{item}}</view>
+  </view>
+</scroll-view>
+
+<!-- 精选示例 -->
+<view wx:if="{{activeTab==='examples'}}">
+  <block wx:for="{{examples}}" wx:key="name">
+    <block wx:if="{{activeType==='全部' || item.typeLabel===activeType}}">
+      <view class="venue-card card">
+        <view class="venue-header">
+          <view>
+            <view class="venue-name">{{item.name}}</view>
+            <view class="tag tag-pink" style="margin-top:8rpx">{{item.typeLabel}}</view>
+          </view>
+          <button class="btn-copy" bindtap="duplicateExample" data-item="{{item}}">复制使用</button>
+        </view>
+        <view class="venue-desc">{{item.desc}}</view>
+        <view class="venue-meta">
+          <view class="meta-row"><text class="meta-label">适合时间：</text><text>{{item.suitable}}</text></view>
+          <view class="meta-row"><text class="meta-label">预算参考：</text><text class="meta-budget">{{item.budget}}</text></view>
+          <view class="meta-row" wx:if="{{item.tips}}"><text class="meta-label">小贴士：</text><text class="meta-tips">{{item.tips}}</text></view>
+        </view>
+      </view>
+    </block>
+  </block>
+</view>
+
+<!-- 我的场地 -->
+<view wx:if="{{activeTab==='mine'}}">
+  <view wx:if="{{myVenues.length===0}}" class="empty-state">
+    <text style="font-size:60rpx">🏡</text>
+    <text>还没有收藏场地，去示例中复制或自己添加</text>
+  </view>
+
+  <block wx:for="{{myVenues}}" wx:key="_id">
+    <block wx:if="{{activeType==='全部' || item.typeLabel===activeType}}">
+      <view class="venue-card card">
+        <view class="venue-header">
+          <view>
+            <view class="venue-name">{{item.name}}</view>
+            <view class="tag tag-gold" style="margin-top:8rpx">{{item.typeLabel}}</view>
+          </view>
+          <view class="action-btns">
+            <view class="action-btn edit-btn" bindtap="editVenue" data-venue="{{item}}">编辑</view>
+            <view class="action-btn del-btn" bindtap="deleteVenue" data-id="{{item._id}}">删除</view>
+          </view>
+        </view>
+        <view class="venue-desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+        <view class="venue-meta">
+          <view class="meta-row" wx:if="{{item.suitable}}"><text class="meta-label">适合时间：</text><text>{{item.suitable}}</text></view>
+          <view class="meta-row" wx:if="{{item.budget}}"><text class="meta-label">预算参考：</text><text class="meta-budget">{{item.budget}}</text></view>
+          <view class="meta-row" wx:if="{{item.tips}}"><text class="meta-label">小贴士：</text><text class="meta-tips">{{item.tips}}</text></view>
+          <view class="meta-row" wx:if="{{item.notes}}"><text class="meta-label">备注：</text><text>{{item.notes}}</text></view>
+        </view>
+      </view>
+    </block>
+  </block>
+
+  <view style="height:160rpx"></view>
+</view>
+
+<!-- 添加按钮（我的场地tab） -->
+<view class="fab" wx:if="{{activeTab==='mine'}}" bindtap="openAdd">
+  <text>+</text>
+</view>
+
+<!-- 编辑/添加弹窗 -->
+<view class="modal-mask" wx:if="{{showModal}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">{{editingId?'编辑场地':'添加场地'}}</view>
+    <scroll-view scroll-y style="max-height:65vh">
+      <view class="form-group">
+        <label class="input-label">场地名称</label>
+        <input class="input-field" placeholder="如：海边私人餐厅" value="{{form.name}}" bindinput="onInput" data-key="name" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">类型</label>
+        <picker range="{{typeOptions}}" value="{{typeValues.indexOf(form.type)}}" bindchange="onTypePick">
+          <view class="input-field">{{form.typeLabel}}</view>
+        </picker>
+      </view>
+      <view class="form-group">
+        <label class="input-label">场地描述</label>
+        <textarea class="input-field" placeholder="描述这个场地的特点和氛围" value="{{form.desc}}" bindinput="onInput" data-key="desc" style="height:120rpx" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">适合时间</label>
+        <input class="input-field" placeholder="如：傍晚/晴天" value="{{form.suitable}}" bindinput="onInput" data-key="suitable" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">预算参考</label>
+        <input class="input-field" placeholder="如：1000-3000元" value="{{form.budget}}" bindinput="onInput" data-key="budget" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">小贴士</label>
+        <textarea class="input-field" placeholder="注意事项或建议" value="{{form.tips}}" bindinput="onInput" data-key="tips" style="height:100rpx" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">个人备注</label>
+        <textarea class="input-field" placeholder="自己的想法和记录" value="{{form.notes}}" bindinput="onInput" data-key="notes" style="height:100rpx" />
+      </view>
+    </scroll-view>
+    <view style="display:flex;gap:20rpx;margin-top:24rpx">
+      <button class="btn-secondary" style="flex:1" bindtap="closeModal">取消</button>
+      <button class="btn-primary" style="flex:1" bindtap="saveVenue">保存</button>
+    </view>
+  </view>
+</view>

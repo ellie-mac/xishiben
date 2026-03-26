@@ -1,0 +1,82 @@
+<view class="page-title">吉日挑选</view>
+
+<!-- 日历卡片 -->
+<view class="card calendar-card">
+  <!-- 导航 -->
+  <view class="cal-nav">
+    <view class="nav-btn" bindtap="prevMonth">‹</view>
+    <view class="cal-title">{{year}}年{{month}}月</view>
+    <view class="nav-btn" bindtap="nextMonth">›</view>
+  </view>
+
+  <!-- 星期标题 -->
+  <view class="week-header">
+    <view class="week-cell sun">日</view>
+    <view class="week-cell">一</view>
+    <view class="week-cell">二</view>
+    <view class="week-cell">三</view>
+    <view class="week-cell">四</view>
+    <view class="week-cell">五</view>
+    <view class="week-cell sat">六</view>
+  </view>
+
+  <!-- 日期格子 -->
+  <view class="day-grid">
+    <view wx:for="{{calendarDays}}" wx:key="date"
+      class="day-cell {{item.empty?'empty':''}} {{item.isToday?'today':''}} {{item.auspicious&&!item.empty?'auspicious':''}} {{selectedDate===item.date?'selected':''}}"
+      bindtap="selectDay" data-date="{{item.date}}">
+      <view wx:if="{{!item.empty}}">
+        <view class="day-num">{{item.day}}</view>
+        <view class="day-lunar">{{item.lunarDayStr}}</view>
+        <view class="auspicious-dot" wx:if="{{item.auspicious}}"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 图例 -->
+  <view class="legend-row">
+    <view class="legend-item">
+      <view class="legend-dot auspicious-legend"></view>
+      <text>宜嫁娶吉日</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot today-legend"></view>
+      <text>今天</text>
+    </view>
+  </view>
+</view>
+
+<!-- 选中日期详情 -->
+<view class="date-detail card" wx:if="{{selectedDate}}">
+  <view class="detail-header">
+    <view class="detail-date">{{selectedDate}}</view>
+    <view class="auspicious-badge" wx:if="{{selectedAuspicious}}">🌟 宜嫁娶吉日</view>
+    <view class="normal-badge" wx:else>普通日期</view>
+  </view>
+  <view class="lunar-info" wx:if="{{selectedLunar}}">
+    <view class="lunar-item">农历 {{selectedLunar.lunarMonthStr}}{{selectedLunar.lunarDayStr}}</view>
+    <view class="lunar-item">{{selectedLunar.ganZhi}}年 {{selectedLunar.shengXiao}}年</view>
+  </view>
+  <button class="btn-primary" style="width:100%;margin-top:20rpx" bindtap="saveDate">
+    ♥ 收藏此日期
+  </button>
+</view>
+
+<!-- 已收藏日期 -->
+<view wx:if="{{savedDates.length>0}}">
+  <view class="section-title">已收藏吉日</view>
+  <view class="saved-list">
+    <view class="saved-item card" wx:for="{{savedDates}}" wx:key="_id">
+      <view class="saved-info">
+        <view class="saved-date">{{item.date}}</view>
+        <view class="saved-lunar" wx:if="{{item.lunarInfo}}">
+          {{item.lunarInfo.lunarMonthStr}}{{item.lunarInfo.lunarDayStr}}
+        </view>
+        <view class="saved-auspicious" wx:if="{{item.auspicious}}">宜嫁娶</view>
+      </view>
+      <view class="saved-del" bindtap="removeSavedDate" data-id="{{item._id}}">✕</view>
+    </view>
+  </view>
+</view>
+
+<view style="height:60rpx"></view>

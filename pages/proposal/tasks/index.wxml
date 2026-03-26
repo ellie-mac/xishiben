@@ -1,0 +1,97 @@
+<view class="page-title">求婚任务清单</view>
+
+<!-- 进度条 -->
+<view class="card" style="margin-top:0;padding:24rpx 32rpx">
+  <view style="display:flex;justify-content:space-between;margin-bottom:12rpx">
+    <text style="font-size:26rpx;color:#666">完成进度</text>
+    <text style="font-size:26rpx;color:#C9956C">{{tasks.filter(t=>t.completed).length}}/{{tasks.length}}</text>
+  </view>
+  <view class="progress-bar">
+    <view class="progress-fill" style="width:{{tasks.length?tasks.filter(t=>t.completed).length/tasks.length*100:0}}%"></view>
+  </view>
+</view>
+
+<!-- 分类筛选 -->
+<scroll-view scroll-x class="cat-scroll">
+  <view class="cat-list">
+    <view class="cat-item {{activeCategory===item?'active':''}}" wx:for="{{CATEGORIES}}" wx:key="*this"
+      bindtap="switchCategory" data-cat="{{item}}">{{item}}</view>
+  </view>
+</scroll-view>
+
+<!-- 任务列表 -->
+<view class="task-list">
+  <block wx:for="{{tasks}}" wx:key="_id">
+    <block wx:if="{{activeCategory==='全部' || item.category===activeCategory}}">
+      <view class="task-item">
+        <view class="checkbox-circle {{item.completed?'checked':''}}"
+          bindtap="toggleTask" data-id="{{item._id}}" data-completed="{{item.completed}}">
+          <text wx:if="{{item.completed}}" style="color:#fff;font-size:24rpx">✓</text>
+        </view>
+        <view class="task-body">
+          <view class="task-title {{item.completed?'checked':''}}">{{item.title}}</view>
+          <view class="task-desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+          <view class="tag tag-gray" style="margin-top:10rpx">{{item.category}}</view>
+        </view>
+        <view class="task-del" bindtap="deleteTask" data-id="{{item._id}}">✕</view>
+      </view>
+    </block>
+  </block>
+
+  <view class="empty-state" wx:if="{{tasks.length===0}}">
+    <text style="font-size:60rpx">💌</text>
+    <text>还没有任务，点击导入模板或添加</text>
+  </view>
+</view>
+
+<!-- 底部操作 -->
+<view class="bottom-btns">
+  <button class="btn-secondary" style="flex:1;margin-right:16rpx" bindtap="openTemplates">导入模板</button>
+  <button class="btn-primary" style="flex:1" bindtap="openAdd">+ 添加任务</button>
+</view>
+
+<!-- 添加任务弹窗 -->
+<view class="modal-mask" wx:if="{{showAddModal}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">添加任务</view>
+    <view class="form-group">
+      <label class="input-label">任务名称</label>
+      <input class="input-field" placeholder="输入任务名称" value="{{addForm.title}}"
+        bindinput="onAddInput" data-key="title" />
+    </view>
+    <view class="form-group">
+      <label class="input-label">备注说明（可选）</label>
+      <textarea class="input-field" placeholder="添加备注" value="{{addForm.desc}}"
+        bindinput="onAddInput" data-key="desc" style="height:120rpx" />
+    </view>
+    <view class="form-group">
+      <label class="input-label">分类</label>
+      <picker range="{{['策划','场地布置','求婚戒指','礼物惊喜','求婚誓言']}}"
+        value="{{['策划','场地布置','求婚戒指','礼物惊喜','求婚誓言'].indexOf(addForm.category)}}"
+        bindchange="onAddInput" data-key="category">
+        <view class="input-field picker-field">{{addForm.category}}</view>
+      </picker>
+    </view>
+    <view style="display:flex;gap:20rpx;margin-top:32rpx">
+      <button class="btn-secondary" style="flex:1" bindtap="closeAdd">取消</button>
+      <button class="btn-primary" style="flex:1" bindtap="saveAdd">添加</button>
+    </view>
+  </view>
+</view>
+
+<!-- 模板弹窗 -->
+<view class="modal-mask" wx:if="{{showTemplates}}">
+  <view class="modal-content tpl-modal" catchtap="">
+    <view class="modal-title">选择模板</view>
+    <button class="btn-primary" style="width:100%;margin-bottom:24rpx" bindtap="importAllTemplates">一键导入全部模板</button>
+    <scroll-view scroll-y style="max-height:60vh">
+      <view class="tpl-item" wx:for="{{templateList}}" wx:key="title" bindtap="importTemplate" data-tpl="{{item}}">
+        <view class="tpl-tag tag tag-pink">{{item.category}}</view>
+        <view class="tpl-title">{{item.title}}</view>
+        <view class="tpl-desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+        <view class="tpl-add">+</view>
+      </view>
+    </scroll-view>
+    <button class="btn-ghost" style="width:100%;margin-top:24rpx;color:#999" bindtap="closeTemplates">关闭</button>
+  </view>
+</view>

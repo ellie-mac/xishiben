@@ -1,0 +1,121 @@
+<view class="page-title">套餐对比</view>
+
+<view wx:if="{{shops.length===0}}" class="empty-state">
+  <text style="font-size:60rpx">📸</text>
+  <text>还没有添加门店，点击右下角+号</text>
+</view>
+
+<view class="shop-list">
+  <view class="shop-card card" wx:for="{{shops}}" wx:key="_id">
+    <!-- 头部 -->
+    <view class="shop-header">
+      <view class="shop-name">{{item.shopName}}</view>
+      <view class="shop-rating">
+        <text class="star {{index2<item.rating?'filled':''}}" wx:for="{{[1,2,3,4,5]}}" wx:key="*this" wx:for-index="index2">★</text>
+      </view>
+    </view>
+
+    <!-- 价格突出显示 -->
+    <view class="shop-price" wx:if="{{item.price}}">¥{{item.price}}</view>
+
+    <!-- 详情格 -->
+    <view class="detail-grid">
+      <view class="detail-cell" wx:if="{{item.photos}}">
+        <view class="detail-val">{{item.photos}}张</view>
+        <view class="detail-label">精修数量</view>
+      </view>
+      <view class="detail-cell" wx:if="{{item.duration}}">
+        <view class="detail-val">{{item.duration}}小时</view>
+        <view class="detail-label">拍摄时长</view>
+      </view>
+      <view class="detail-cell" wx:if="{{item.outfits}}">
+        <view class="detail-val">{{item.outfits}}套</view>
+        <view class="detail-label">换装数量</view>
+      </view>
+      <view class="detail-cell">
+        <view class="detail-val">{{item.includesAlbum?'含':'不含'}}</view>
+        <view class="detail-label">相册</view>
+      </view>
+    </view>
+
+    <view class="shop-locations" wx:if="{{item.locations}}">
+      <text class="meta-label">内外景：</text><text>{{item.locations}}</text>
+    </view>
+    <view class="shop-notes" wx:if="{{item.notes}}">
+      <text class="meta-label">备注：</text><text>{{item.notes}}</text>
+    </view>
+
+    <view class="shop-actions">
+      <view class="action-btn edit-btn" bindtap="editShop" data-shop="{{item}}">编辑</view>
+      <view class="action-btn del-btn" bindtap="deleteShop" data-id="{{item._id}}">删除</view>
+    </view>
+  </view>
+</view>
+
+<view style="height:160rpx"></view>
+
+<!-- FAB -->
+<view class="fab" bindtap="openAdd">
+  <text>+</text>
+</view>
+
+<!-- 弹窗 -->
+<view class="modal-mask" wx:if="{{showModal}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">{{editingId?'编辑门店':'添加门店'}}</view>
+    <scroll-view scroll-y style="max-height:65vh">
+      <view class="form-group">
+        <label class="input-label">门店名称</label>
+        <input class="input-field" placeholder="婚纱照门店名称" value="{{form.shopName}}" bindinput="onInput" data-key="shopName" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">套餐价格（元）</label>
+        <input class="input-field" placeholder="0" value="{{form.price}}" bindinput="onInput" data-key="price" type="digit" />
+      </view>
+      <view style="display:flex;gap:16rpx">
+        <view class="form-group" style="flex:1">
+          <label class="input-label">精修张数</label>
+          <input class="input-field" placeholder="0" value="{{form.photos}}" bindinput="onInput" data-key="photos" type="number" />
+        </view>
+        <view class="form-group" style="flex:1">
+          <label class="input-label">拍摄时长(h)</label>
+          <input class="input-field" placeholder="0" value="{{form.duration}}" bindinput="onInput" data-key="duration" type="digit" />
+        </view>
+      </view>
+      <view style="display:flex;gap:16rpx">
+        <view class="form-group" style="flex:1">
+          <label class="input-label">换装套数</label>
+          <input class="input-field" placeholder="0" value="{{form.outfits}}" bindinput="onInput" data-key="outfits" type="number" />
+        </view>
+        <view class="form-group" style="flex:1">
+          <label class="input-label">含相册</label>
+          <view class="toggle-row input-field" bindtap="toggleAlbum">
+            <text>{{form.includesAlbum?'含相册':'不含'}}</text>
+            <view class="toggle {{form.includesAlbum?'on':''}}"></view>
+          </view>
+        </view>
+      </view>
+      <view class="form-group">
+        <label class="input-label">内外景说明</label>
+        <input class="input-field" placeholder="如：2内2外，异地差旅另付" value="{{form.locations}}" bindinput="onInput" data-key="locations" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">评分</label>
+        <view class="rating-row">
+          <text class="rating-star {{form.rating>=item?'active':''}}"
+            wx:for="{{ratingList}}" wx:key="*this"
+            bindtap="setRating" data-val="{{item}}">★</text>
+        </view>
+      </view>
+      <view class="form-group">
+        <label class="input-label">备注</label>
+        <textarea class="input-field" placeholder="额外费用、注意事项等" value="{{form.notes}}"
+          bindinput="onInput" data-key="notes" style="height:100rpx" />
+      </view>
+    </scroll-view>
+    <view style="display:flex;gap:20rpx;margin-top:20rpx">
+      <button class="btn-secondary" style="flex:1" bindtap="closeModal">取消</button>
+      <button class="btn-primary" style="flex:1" bindtap="saveShop">保存</button>
+    </view>
+  </view>
+</view>

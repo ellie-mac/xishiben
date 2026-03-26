@@ -1,0 +1,49 @@
+.stats-row {
+  display: flex; margin: 0 32rpx 8rpx;
+  background: #fff; border-radius: 20rpx; padding: 28rpx 0;
+  box-shadow: 0 2rpx 20rpx rgba(201,149,108,0.08);
+}
+.stat-item { flex: 1; text-align: center; }
+.stat-num { font-size: 40rpx; font-weight: 700; color: #C9956C; }
+.stat-label { font-size: 24rpx; color: #999; margin-top: 4rpx; }
+.stat-divider { width: 1rpx; background: #F5EDE8; }
+
+.member-card { padding: 28rpx; }
+.member-header { display: flex; align-items: center; }
+.member-avatar {
+  width: 80rpx; height: 80rpx; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32rpx; color: #fff; font-weight: 600;
+  flex-shrink: 0; margin-right: 20rpx;
+}
+.member-avatar.bridesmaid { background: linear-gradient(135deg, #E8B4B8, #C9956C); }
+.member-avatar.groomsman { background: linear-gradient(135deg, #90CAF9, #5B9BD5); }
+
+.member-info { flex: 1; }
+.member-name { font-size: 30rpx; font-weight: 600; color: #333; }
+.member-phone { font-size: 24rpx; color: #999; margin-top: 6rpx; }
+
+.member-actions { display: flex; gap: 16rpx; }
+.action-icon { font-size: 36rpx; padding: 4rpx; }
+
+.duties-row { display: flex; flex-wrap: wrap; gap: 12rpx; margin-top: 16rpx; }
+.duty-tag {
+  font-size: 22rpx; padding: 6rpx 16rpx;
+  background: #FEF3E2; color: #C9956C;
+  border-radius: 20rpx;
+}
+
+.duty-check-list { display: flex; flex-wrap: wrap; gap: 16rpx; padding: 8rpx 0; }
+.duty-check-item { display: flex; align-items: center; gap: 10rpx; }
+.duty-check-box {
+  width: 36rpx; height: 36rpx; border-radius: 8rpx;
+  border: 2rpx solid #ddd;
+  display: flex; align-items: center; justify-content: center;
+}
+.duty-check-box.checked {
+  background: linear-gradient(135deg, #E8B4B8, #C9956C);
+  border-color: #C9956C;
+}
+.duty-check-text { font-size: 26rpx; color: #333; }
+
+.form-group { margin-bottom: 24rpx; }

@@ -1,0 +1,112 @@
+<view class="page-title">婚礼任务清单</view>
+
+<!-- 总进度 -->
+<view class="card" style="margin-top:0;padding:24rpx 32rpx">
+  <view style="display:flex;justify-content:space-between;margin-bottom:12rpx">
+    <text style="font-size:26rpx;color:#666">总完成进度</text>
+    <text style="font-size:26rpx;color:#C9956C">{{tasks.filter(t=>t.completed).length}}/{{tasks.length}}</text>
+  </view>
+  <view class="progress-bar">
+    <view class="progress-fill" style="width:{{tasks.length?tasks.filter(t=>t.completed).length/tasks.length*100:0}}%"></view>
+  </view>
+</view>
+
+<!-- 阶段标签 -->
+<scroll-view scroll-x class="phase-scroll">
+  <view class="phase-list">
+    <view class="phase-tab {{activePhase===item?'active':''}}"
+      wx:for="{{PHASES}}" wx:key="*this"
+      bindtap="switchPhase" data-phase="{{item}}">{{item}}</view>
+  </view>
+</scroll-view>
+
+<!-- 当前阶段任务 -->
+<view class="task-section">
+  <block wx:for="{{tasks}}" wx:key="_id">
+    <block wx:if="{{item.phase===activePhase}}">
+      <view class="task-item">
+        <view class="checkbox-circle {{item.completed?'checked':''}}"
+          bindtap="toggleTask" data-id="{{item._id}}" data-completed="{{item.completed}}">
+          <text wx:if="{{item.completed}}" style="color:#fff;font-size:24rpx">✓</text>
+        </view>
+        <view class="task-body">
+          <view class="task-title {{item.completed?'checked':''}}">{{item.title}}</view>
+          <view class="task-desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+          <view class="tag tag-gray" style="margin-top:10rpx">{{item.category}}</view>
+        </view>
+        <view class="task-del" bindtap="deleteTask" data-id="{{item._id}}">✕</view>
+      </view>
+    </block>
+  </block>
+
+  <view class="empty-state" wx:if="{{tasks.filter(t=>t.phase===activePhase).length===0}}">
+    <text style="font-size:60rpx">💒</text>
+    <text>此阶段暂无任务</text>
+  </view>
+</view>
+
+<!-- 底部操作 -->
+<view class="bottom-btns">
+  <button class="btn-secondary" style="flex:1;margin-right:16rpx" bindtap="openTemplates">导入模板</button>
+  <button class="btn-primary" style="flex:1" bindtap="openAdd">+ 添加任务</button>
+</view>
+
+<!-- 添加弹窗 -->
+<view class="modal-mask" wx:if="{{showAddModal}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">添加任务</view>
+    <view class="form-group">
+      <label class="input-label">任务名称</label>
+      <input class="input-field" placeholder="输入任务名称" value="{{addForm.title}}"
+        bindinput="onAddInput" data-key="title" />
+    </view>
+    <view class="form-group">
+      <label class="input-label">备注说明（可选）</label>
+      <textarea class="input-field" placeholder="添加备注" value="{{addForm.desc}}"
+        bindinput="onAddInput" data-key="desc" style="height:120rpx" />
+    </view>
+    <view class="form-group">
+      <label class="input-label">阶段</label>
+      <picker range="{{PHASES}}" value="{{PHASES.indexOf(addForm.phase)}}" bindchange="onPhasePick">
+        <view class="input-field">{{addForm.phase}}</view>
+      </picker>
+    </view>
+    <view class="form-group">
+      <label class="input-label">分类（可选）</label>
+      <input class="input-field" placeholder="如：场地、服装..." value="{{addForm.category}}"
+        bindinput="onAddInput" data-key="category" />
+    </view>
+    <view style="display:flex;gap:20rpx;margin-top:16rpx">
+      <button class="btn-secondary" style="flex:1" bindtap="closeAdd">取消</button>
+      <button class="btn-primary" style="flex:1" bindtap="saveAdd">添加</button>
+    </view>
+  </view>
+</view>
+
+<!-- 模板弹窗 -->
+<view class="modal-mask" wx:if="{{showTemplates}}">
+  <view class="modal-content tpl-modal" catchtap="">
+    <view class="modal-title">婚礼任务模板</view>
+    <button class="btn-primary" style="width:100%;margin-bottom:20rpx" bindtap="importAllTemplates">一键导入全部模板</button>
+    <!-- 模板阶段筛选 -->
+    <scroll-view scroll-x style="white-space:nowrap;margin-bottom:16rpx">
+      <view style="display:inline-flex;gap:12rpx">
+        <view class="phase-tab-sm {{templatePhase===item?'active':''}}"
+          wx:for="{{PHASES}}" wx:key="*this"
+          bindtap="switchTemplatePhase" data-phase="{{item}}">{{item}}</view>
+      </view>
+    </scroll-view>
+    <scroll-view scroll-y style="max-height:55vh">
+      <block wx:for="{{templateList}}" wx:key="title">
+        <block wx:if="{{item.phase===templatePhase}}">
+          <view class="tpl-item" bindtap="importTemplate" data-tpl="{{item}}">
+            <view class="tpl-tag tag tag-pink">{{item.category}}</view>
+            <view class="tpl-title">{{item.title}}</view>
+            <view class="tpl-add">+</view>
+          </view>
+        </block>
+      </block>
+    </scroll-view>
+    <button class="btn-ghost" style="width:100%;margin-top:16rpx;color:#999" bindtap="closeTemplates">关闭</button>
+  </view>
+</view>

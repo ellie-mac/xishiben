@@ -1,0 +1,55 @@
+.tab-bar {
+  display: flex;
+  margin: 0 32rpx 20rpx;
+  background: #f5f0eb;
+  border-radius: 16rpx;
+  padding: 6rpx;
+}
+.tab-item {
+  flex: 1; text-align: center; padding: 18rpx 0;
+  font-size: 28rpx; color: #888; border-radius: 12rpx; transition: all 0.2s;
+}
+.tab-item.active {
+  background: #fff; color: #C9956C; font-weight: 600;
+  box-shadow: 0 2rpx 10rpx rgba(201,149,108,0.15);
+}
+
+.hint-text {
+  font-size: 24rpx; color: #aaa; text-align: center;
+  padding: 0 32rpx 16rpx;
+}
+
+.vow-card { margin-bottom: 0; }
+.vow-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16rpx; }
+.vow-title { font-size: 30rpx; font-weight: 600; color: #333; }
+.selected-badge {
+  background: linear-gradient(135deg, #E8B4B8, #C9956C);
+  color: #fff; font-size: 22rpx; padding: 6rpx 16rpx; border-radius: 20rpx;
+}
+
+.vow-content {
+  font-size: 26rpx; color: #555; line-height: 1.9;
+  white-space: pre-wrap; margin-bottom: 20rpx;
+  background: #FDF8F5; border-radius: 12rpx; padding: 20rpx 24rpx;
+}
+
+.use-btn {
+  background: linear-gradient(135deg, #E8B4B8, #C9956C);
+  color: #fff; font-size: 26rpx; border-radius: 30rpx;
+  padding: 16rpx 0; border: none; width: 100%;
+}
+
+.vow-actions { display: flex; gap: 16rpx; margin-top: 4rpx; }
+.action-btn {
+  flex: 1; text-align: center; font-size: 24rpx;
+  padding: 14rpx 0; border-radius: 20rpx;
+}
+.select-btn { background: #FEF3E2; color: #C9956C; }
+.select-btn.selected {
+  background: linear-gradient(135deg, #E8B4B8, #C9956C);
+  color: #fff;
+}
+.edit-btn { background: #F0F0F0; color: #666; }
+.del-btn { background: #FEE8ED; color: #E8B4B8; }
+
+.form-group { margin-bottom: 24rpx; }

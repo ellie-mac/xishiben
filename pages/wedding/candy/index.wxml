@@ -1,0 +1,98 @@
+<view class="page-title">喜糖伴手礼</view>
+
+<!-- 预算摘要 -->
+<view class="summary-card card">
+  <view class="summary-row">
+    <view class="summary-item">
+      <view class="summary-val">¥{{items.reduce((s,i)=>s+(i.quantity||0)*(i.unitPrice||0),0)}}</view>
+      <view class="summary-label">总预算</view>
+    </view>
+    <view class="summary-divider"></view>
+    <view class="summary-item">
+      <view class="summary-val spent">¥{{items.filter(i=>i.purchased).reduce((s,i)=>s+(i.quantity||0)*(i.unitPrice||0),0)}}</view>
+      <view class="summary-label">已购买</view>
+    </view>
+    <view class="summary-divider"></view>
+    <view class="summary-item">
+      <view class="summary-val remaining">¥{{items.filter(i=>!i.purchased).reduce((s,i)=>s+(i.quantity||0)*(i.unitPrice||0),0)}}</view>
+      <view class="summary-label">待购买</view>
+    </view>
+  </view>
+  <view style="margin-top:16rpx">
+    <view style="display:flex;justify-content:space-between;margin-bottom:8rpx">
+      <text style="font-size:24rpx;color:#999">采购进度</text>
+      <text style="font-size:24rpx;color:#C9956C">{{items.filter(i=>i.purchased).length}}/{{items.length}}</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width:{{items.length?items.filter(i=>i.purchased).length/items.length*100:0}}%"></view>
+    </view>
+  </view>
+</view>
+
+<!-- 列表 -->
+<view wx:if="{{items.length===0}}" class="empty-state">
+  <text style="font-size:60rpx">🍬</text>
+  <text>还没有添加喜糖伴手礼</text>
+</view>
+
+<view class="item-list">
+  <view class="candy-item card" wx:for="{{items}}" wx:key="_id">
+    <view class="item-header">
+      <view class="check-area" bindtap="togglePurchased" data-id="{{item._id}}" data-purchased="{{item.purchased}}">
+        <view class="check-circle {{item.purchased?'checked':''}}">
+          <text wx:if="{{item.purchased}}" style="color:#fff;font-size:22rpx">✓</text>
+        </view>
+      </view>
+      <view class="item-body">
+        <view class="item-name {{item.purchased?'purchased':''}}">{{item.name}}</view>
+        <view class="item-details">
+          <text wx:if="{{item.quantity}}">数量: {{item.quantity}} 份</text>
+          <text wx:if="{{item.unitPrice}}" style="margin-left:16rpx">单价: ¥{{item.unitPrice}}</text>
+          <text wx:if="{{item.quantity && item.unitPrice}}" style="color:#C9956C;margin-left:16rpx;font-weight:600">合计: ¥{{item.quantity*item.unitPrice}}</text>
+        </view>
+        <view class="item-notes" wx:if="{{item.notes}}">{{item.notes}}</view>
+      </view>
+      <view class="item-actions">
+        <view class="action-icon" bindtap="editItem" data-item="{{item}}">✏️</view>
+        <view class="action-icon" bindtap="deleteItem" data-id="{{item._id}}">🗑</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view style="height:160rpx"></view>
+
+<!-- FAB -->
+<view class="fab" bindtap="openAdd">
+  <text>+</text>
+</view>
+
+<!-- 弹窗 -->
+<view class="modal-mask" wx:if="{{showModal}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">{{editingId?'编辑项目':'添加项目'}}</view>
+    <view class="form-group">
+      <label class="input-label">名称</label>
+      <input class="input-field" placeholder="如：喜糖礼盒、小熊饼干" value="{{form.name}}" bindinput="onInput" data-key="name" />
+    </view>
+    <view style="display:flex;gap:16rpx">
+      <view class="form-group" style="flex:1">
+        <label class="input-label">数量（份）</label>
+        <input class="input-field" placeholder="0" value="{{form.quantity}}" bindinput="onInput" data-key="quantity" type="digit" />
+      </view>
+      <view class="form-group" style="flex:1">
+        <label class="input-label">单价（元）</label>
+        <input class="input-field" placeholder="0" value="{{form.unitPrice}}" bindinput="onInput" data-key="unitPrice" type="digit" />
+      </view>
+    </view>
+    <view class="form-group">
+      <label class="input-label">备注</label>
+      <textarea class="input-field" placeholder="品牌、采购渠道等" value="{{form.notes}}"
+        bindinput="onInput" data-key="notes" style="height:100rpx" />
+    </view>
+    <view style="display:flex;gap:20rpx;margin-top:16rpx">
+      <button class="btn-secondary" style="flex:1" bindtap="closeModal">取消</button>
+      <button class="btn-primary" style="flex:1" bindtap="saveItem">保存</button>
+    </view>
+  </view>
+</view>

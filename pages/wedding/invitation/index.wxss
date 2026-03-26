@@ -1,0 +1,13 @@
+.form-card { margin-top: 0; }
+.form-group { margin-bottom: 24rpx; }
+.placeholder { color: #ccc; }
+
+.preview-section { padding: 0 32rpx; }
+.preview-wrap {
+  background: #f0ece8; border-radius: 20rpx; overflow: hidden;
+  box-shadow: 0 8rpx 40rpx rgba(0,0,0,0.15);
+  margin-bottom: 24rpx;
+}
+.preview-image { width: 100%; display: block; }
+.action-row { display: flex; margin-bottom: 16rpx; }
+.share-hint { text-align: center; font-size: 24rpx; color: #bbb; }

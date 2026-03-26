@@ -1,0 +1,77 @@
+.tab-bar {
+  display: flex; margin: 0 32rpx 20rpx;
+  background: #f5f0eb; border-radius: 16rpx; padding: 6rpx;
+}
+.tab-item {
+  flex: 1; text-align: center; padding: 18rpx 0;
+  font-size: 28rpx; color: #888; border-radius: 12rpx; transition: all 0.2s;
+}
+.tab-item.active {
+  background: #fff; color: #C9956C; font-weight: 600;
+  box-shadow: 0 2rpx 10rpx rgba(201,149,108,0.15);
+}
+
+/* Checklist */
+.cat-scroll { padding: 0 32rpx 16rpx; white-space: nowrap; }
+.cat-list { display: inline-flex; gap: 16rpx; }
+.cat-item {
+  display: inline-block; padding: 12rpx 24rpx;
+  border-radius: 40rpx; font-size: 24rpx; color: #888; background: #f5f5f5;
+}
+.cat-item.active { background: #C9956C; color: #fff; }
+
+.task-list { padding: 0 32rpx; }
+.task-item {
+  display: flex; align-items: flex-start;
+  background: #fff; border-radius: 20rpx; padding: 28rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(201,149,108,0.06);
+}
+.task-body { flex: 1; margin: 0 20rpx; }
+.task-title { font-size: 28rpx; color: #333; font-weight: 500; }
+.task-title.checked { color: #bbb; text-decoration: line-through; }
+.task-desc { font-size: 24rpx; color: #999; margin-top: 8rpx; line-height: 1.5; }
+.task-del { color: #ddd; font-size: 28rpx; padding: 4rpx 8rpx; }
+
+.bottom-btns {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  display: flex; padding: 24rpx 32rpx 60rpx;
+  background: #fff; box-shadow: 0 -2rpx 20rpx rgba(0,0,0,0.06);
+}
+
+/* Weather */
+.weather-info-card { margin-top: 0; }
+.date-row { display: flex; align-items: center; margin-bottom: 16rpx; }
+.date-label { font-size: 26rpx; color: #999; width: 120rpx; }
+.date-val { font-size: 32rpx; font-weight: 600; color: #333; }
+.no-date { color: #bbb; font-size: 26rpx; font-weight: 400; }
+.countdown-row { font-size: 30rpx; font-weight: 600; text-align: center; padding: 16rpx 0; }
+
+.weather-notice {
+  background: #FEF3E2; border-radius: 12rpx; padding: 20rpx;
+  font-size: 26rpx; color: #C9956C; line-height: 1.7; margin-top: 16rpx;
+}
+.no-info-tip { text-align: center; font-size: 26rpx; color: #bbb; margin-top: 20rpx; }
+
+.weather-result { margin-top: 0; }
+.weather-main { text-align: center; padding: 20rpx 0; }
+.weather-temp { font-size: 80rpx; font-weight: 700; color: #C9956C; }
+.weather-desc { font-size: 32rpx; color: #666; margin-top: 8rpx; }
+
+.weather-details { display: flex; justify-content: center; gap: 60rpx; margin: 20rpx 0; }
+.w-detail-item { text-align: center; }
+.w-detail-label { font-size: 22rpx; color: #999; display: block; margin-bottom: 4rpx; }
+
+.outfit-section { background: #FDF8F5; border-radius: 16rpx; padding: 24rpx; margin-top: 20rpx; }
+.outfit-title { font-size: 28rpx; font-weight: 600; color: #C9956C; margin-bottom: 12rpx; }
+.outfit-content { font-size: 26rpx; color: #555; line-height: 1.8; white-space: pre-wrap; }
+
+.tpl-item {
+  display: flex; align-items: center; padding: 24rpx 0;
+  border-bottom: 1rpx solid #F5EDE8;
+}
+.tpl-tag { margin-right: 16rpx; flex-shrink: 0; }
+.tpl-title { flex: 1; font-size: 28rpx; color: #333; }
+.tpl-add { color: #C9956C; font-size: 40rpx; padding: 0 10rpx; }
+
+.form-group { margin-bottom: 24rpx; }

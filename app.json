@@ -1,0 +1,69 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/checklist/index",
+    "pages/calendar/index",
+    "pages/budget/index/index",
+    "pages/profile/index",
+    "pages/proposal/tasks/index",
+    "pages/proposal/venues/index",
+    "pages/proposal/vows/index",
+    "pages/wedding/tasks/index",
+    "pages/wedding/party/index",
+    "pages/wedding/vendors/index",
+    "pages/wedding/candy/index",
+    "pages/wedding/invitation/index",
+    "pages/photos/index/index",
+    "pages/photos/compare/index",
+    "pages/registration/index",
+    "pages/budget/detail/index"
+  ],
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#C9956C",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab/home.png",
+        "selectedIconPath": "images/tab/home_active.png"
+      },
+      {
+        "pagePath": "pages/checklist/index",
+        "text": "清单",
+        "iconPath": "images/tab/list.png",
+        "selectedIconPath": "images/tab/list_active.png"
+      },
+      {
+        "pagePath": "pages/calendar/index",
+        "text": "吉日",
+        "iconPath": "images/tab/calendar.png",
+        "selectedIconPath": "images/tab/calendar_active.png"
+      },
+      {
+        "pagePath": "pages/budget/index/index",
+        "text": "预算",
+        "iconPath": "images/tab/budget.png",
+        "selectedIconPath": "images/tab/budget_active.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我们",
+        "iconPath": "images/tab/couple.png",
+        "selectedIconPath": "images/tab/couple_active.png"
+      }
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FDF8F5",
+    "navigationBarTitleText": "喜事本",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FDF8F5"
+  },
+  "cloud": true,
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

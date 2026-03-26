@@ -1,0 +1,104 @@
+<view class="page-title">供应商管理</view>
+
+<!-- 类型筛选 -->
+<scroll-view scroll-x class="cat-scroll">
+  <view class="cat-list">
+    <view class="cat-item {{activeType===item?'active':''}}" wx:for="{{ALL_TYPES}}" wx:key="*this"
+      bindtap="switchType" data-type="{{item}}">{{item}}</view>
+  </view>
+</scroll-view>
+
+<!-- 供应商列表 -->
+<view wx:if="{{vendors.length===0}}" class="empty-state">
+  <text style="font-size:60rpx">📋</text>
+  <text>还没有添加供应商</text>
+</view>
+
+<view class="vendor-list">
+  <block wx:for="{{vendors}}" wx:key="_id">
+    <block wx:if="{{activeType==='全部' || item.type===activeType}}">
+      <view class="vendor-card card">
+        <view class="vendor-header">
+          <view class="vendor-type-tag">{{item.type}}</view>
+          <view class="status-badge status-{{item.status==='已付款'?'paid':item.status==='已定'?'confirmed':'pending'}}">
+            {{item.status}}
+          </view>
+        </view>
+        <view class="vendor-name">{{item.name}}</view>
+        <view class="vendor-meta">
+          <view class="meta-item" wx:if="{{item.contact}}">
+            <text class="meta-label">联系人：</text><text>{{item.contact}}</text>
+          </view>
+          <view class="meta-item" wx:if="{{item.phone}}" bindtap="callVendor" data-phone="{{item.phone}}">
+            <text class="meta-label">电话：</text>
+            <text class="phone-link">{{item.phone}} 📞</text>
+          </view>
+          <view class="meta-item" wx:if="{{item.price}}">
+            <text class="meta-label">报价：</text>
+            <text class="price-text">¥{{item.price}}</text>
+          </view>
+          <view class="meta-item" wx:if="{{item.notes}}">
+            <text class="meta-label">备注：</text><text>{{item.notes}}</text>
+          </view>
+        </view>
+        <view class="vendor-actions">
+          <view class="action-btn edit-btn" bindtap="editVendor" data-vendor="{{item}}">编辑</view>
+          <view class="action-btn del-btn" bindtap="deleteVendor" data-id="{{item._id}}">删除</view>
+        </view>
+      </view>
+    </block>
+  </block>
+</view>
+
+<view style="height:160rpx"></view>
+
+<!-- FAB -->
+<view class="fab" bindtap="openAdd">
+  <text>+</text>
+</view>
+
+<!-- 添加/编辑弹窗 -->
+<view class="modal-mask" wx:if="{{showModal}}">
+  <view class="modal-content" catchtap="">
+    <view class="modal-title">{{editingId?'编辑供应商':'添加供应商'}}</view>
+    <scroll-view scroll-y style="max-height:65vh">
+      <view class="form-group">
+        <label class="input-label">类型</label>
+        <picker range="{{VENDOR_TYPES}}" value="{{VENDOR_TYPES.indexOf(form.type)}}" bindchange="onTypePick">
+          <view class="input-field">{{form.type}}</view>
+        </picker>
+      </view>
+      <view class="form-group">
+        <label class="input-label">名称/品牌</label>
+        <input class="input-field" placeholder="供应商名称" value="{{form.name}}" bindinput="onInput" data-key="name" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">联系人</label>
+        <input class="input-field" placeholder="联系人姓名" value="{{form.contact}}" bindinput="onInput" data-key="contact" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">电话</label>
+        <input class="input-field" placeholder="联系电话" value="{{form.phone}}" bindinput="onInput" data-key="phone" type="number" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">报价（元）</label>
+        <input class="input-field" placeholder="报价金额" value="{{form.price}}" bindinput="onInput" data-key="price" type="digit" />
+      </view>
+      <view class="form-group">
+        <label class="input-label">状态</label>
+        <picker range="{{STATUSES}}" value="{{STATUSES.indexOf(form.status)}}" bindchange="onStatusPick">
+          <view class="input-field">{{form.status}}</view>
+        </picker>
+      </view>
+      <view class="form-group">
+        <label class="input-label">备注</label>
+        <textarea class="input-field" placeholder="合同细节、注意事项等" value="{{form.notes}}"
+          bindinput="onInput" data-key="notes" style="height:120rpx" />
+      </view>
+    </scroll-view>
+    <view style="display:flex;gap:20rpx;margin-top:20rpx">
+      <button class="btn-secondary" style="flex:1" bindtap="closeModal">取消</button>
+      <button class="btn-primary" style="flex:1" bindtap="saveVendor">保存</button>
+    </view>
+  </view>
+</view>
