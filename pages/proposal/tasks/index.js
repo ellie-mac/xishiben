@@ -20,7 +20,9 @@ Page({
   async loadTasks() {
     const tasks = await query('tasks', { module: 'proposal' })
     tasks.sort((a, b) => (a.order || 0) - (b.order || 0))
-    this.setData({ tasks })
+    const completedCount = tasks.filter(t => t.completed).length
+    const progressPct = tasks.length ? Math.round(completedCount / tasks.length * 100) : 0
+    this.setData({ tasks, completedCount, progressPct })
   },
 
   get filteredTasks() {

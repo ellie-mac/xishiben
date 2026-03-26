@@ -4,10 +4,10 @@
 <view class="card" style="margin-top:0;padding:24rpx 32rpx">
   <view style="display:flex;justify-content:space-between;margin-bottom:12rpx">
     <text style="font-size:26rpx;color:#666">总完成进度</text>
-    <text style="font-size:26rpx;color:#C9956C">{{tasks.filter(t=>t.completed).length}}/{{tasks.length}}</text>
+    <text style="font-size:26rpx;color:#C9956C">{{completedCount}}/{{tasks.length}}</text>
   </view>
   <view class="progress-bar">
-    <view class="progress-fill" style="width:{{tasks.length?tasks.filter(t=>t.completed).length/tasks.length*100:0}}%"></view>
+    <view class="progress-fill" style="width:{{progressPct}}%"></view>
   </view>
 </view>
 
@@ -39,7 +39,7 @@
     </block>
   </block>
 
-  <view class="empty-state" wx:if="{{tasks.filter(t=>t.phase===activePhase).length===0}}">
+  <view class="empty-state" wx:if="{{phaseTaskCount===0}}">
     <text style="font-size:60rpx">💒</text>
     <text>此阶段暂无任务</text>
   </view>

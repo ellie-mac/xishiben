@@ -21,10 +21,10 @@
   <view class="card" style="margin-top:0;padding:24rpx 32rpx">
     <view style="display:flex;justify-content:space-between;margin-bottom:12rpx">
       <text style="font-size:26rpx;color:#666">完成进度</text>
-      <text style="font-size:26rpx;color:#C9956C">{{checkItems.filter(i=>i.completed).length}}/{{checkItems.length}}</text>
+      <text style="font-size:26rpx;color:#C9956C">{{completedCount}}/{{checkItems.length}}</text>
     </view>
     <view class="progress-bar">
-      <view class="progress-fill" style="width:{{checkItems.length?checkItems.filter(i=>i.completed).length/checkItems.length*100:0}}%"></view>
+      <view class="progress-fill" style="width:{{progressPct}}%"></view>
     </view>
   </view>
 

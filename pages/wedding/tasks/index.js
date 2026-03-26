@@ -23,7 +23,11 @@ Page({
   async loadTasks() {
     const tasks = await query('tasks', { module: 'wedding' })
     tasks.sort((a, b) => (a.order || 0) - (b.order || 0))
-    this.setData({ tasks })
+    const completedCount = tasks.filter(t => t.completed).length
+    const progressPct = tasks.length ? Math.round(completedCount / tasks.length * 100) : 0
+    const activePhase = this.data.activePhase
+    const phaseTaskCount = tasks.filter(t => t.phase === activePhase).length
+    this.setData({ tasks, completedCount, progressPct, phaseTaskCount })
   },
 
   getTasksByPhase(phase) {
@@ -31,7 +35,9 @@ Page({
   },
 
   switchPhase(e) {
-    this.setData({ activePhase: e.currentTarget.dataset.phase })
+    const activePhase = e.currentTarget.dataset.phase
+    const phaseTaskCount = this.data.tasks.filter(t => t.phase === activePhase).length
+    this.setData({ activePhase, phaseTaskCount })
   },
 
   togglePhase(e) {

@@ -42,7 +42,9 @@ Page({
   async loadCheckItems() {
     const items = await query('tasks', { module: 'photos' })
     items.sort((a, b) => (a.order || 0) - (b.order || 0))
-    this.setData({ checkItems: items })
+    const completedCount = items.filter(i => i.completed).length
+    const progressPct = items.length ? Math.round(completedCount / items.length * 100) : 0
+    this.setData({ checkItems: items, completedCount, progressPct })
   },
 
   switchTab(e) {
