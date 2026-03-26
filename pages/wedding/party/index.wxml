@@ -3,12 +3,12 @@
 <!-- 统计 -->
 <view class="stats-row">
   <view class="stat-item">
-    <view class="stat-num">{{members.filter(m=>m.role==='伴娘').length}}</view>
+    <view class="stat-num">{{bridesmaidsCount}}</view>
     <view class="stat-label">伴娘</view>
   </view>
   <view class="stat-divider"></view>
   <view class="stat-item">
-    <view class="stat-num">{{members.filter(m=>m.role==='伴郎').length}}</view>
+    <view class="stat-num">{{groomsmensCount}}</view>
     <view class="stat-label">伴郎</view>
   </view>
   <view class="stat-divider"></view>
@@ -25,7 +25,7 @@
 </view>
 
 <!-- 伴娘组 -->
-<view wx:if="{{members.filter(m=>m.role==='伴娘').length>0}}">
+<view wx:if="{{bridesmaidsCount>0}}">
   <view class="section-title">伴娘团</view>
   <view class="member-card card" wx:for="{{members}}" wx:key="_id" wx:if="{{item.role==='伴娘'}}">
     <view class="member-header">
@@ -47,7 +47,7 @@
 </view>
 
 <!-- 伴郎组 -->
-<view wx:if="{{members.filter(m=>m.role==='伴郎').length>0}}">
+<view wx:if="{{groomsmensCount>0}}">
   <view class="section-title">伴郎团</view>
   <view class="member-card card" wx:for="{{members}}" wx:key="_id" wx:if="{{item.role==='伴郎'}}">
     <view class="member-header">

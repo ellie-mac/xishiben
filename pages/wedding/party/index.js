@@ -20,7 +20,9 @@ Page({
 
   async loadMembers() {
     const members = await query('party_members')
-    this.setData({ members })
+    const bridesmaidsCount = members.filter(m => m.role === '伴娘').length
+    const groomsmensCount = members.filter(m => m.role === '伴郎').length
+    this.setData({ members, bridesmaidsCount, groomsmensCount })
   },
 
   openAdd() {

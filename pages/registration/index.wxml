@@ -12,10 +12,10 @@
   <view class="card" style="margin-top:0;padding:24rpx 32rpx">
     <view style="display:flex;justify-content:space-between;margin-bottom:12rpx">
       <text style="font-size:26rpx;color:#666">准备进度</text>
-      <text style="font-size:26rpx;color:#C9956C">{{items.filter(i=>i.completed).length}}/{{items.length}}</text>
+      <text style="font-size:26rpx;color:#C9956C">{{completedCount}}/{{items.length}}</text>
     </view>
     <view class="progress-bar">
-      <view class="progress-fill" style="width:{{items.length?items.filter(i=>i.completed).length/items.length*100:0}}%"></view>
+      <view class="progress-fill" style="width:{{progressPct}}%"></view>
     </view>
   </view>
 

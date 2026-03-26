@@ -9,22 +9,22 @@
     </view>
     <view class="summary-divider"></view>
     <view class="summary-item">
-      <view class="summary-val spent">¥{{items.filter(i=>i.purchased).reduce((s,i)=>s+(i.quantity||0)*(i.unitPrice||0),0)}}</view>
+      <view class="summary-val spent">¥{{spentTotal}}</view>
       <view class="summary-label">已购买</view>
     </view>
     <view class="summary-divider"></view>
     <view class="summary-item">
-      <view class="summary-val remaining">¥{{items.filter(i=>!i.purchased).reduce((s,i)=>s+(i.quantity||0)*(i.unitPrice||0),0)}}</view>
+      <view class="summary-val remaining">¥{{remainingTotal}}</view>
       <view class="summary-label">待购买</view>
     </view>
   </view>
   <view style="margin-top:16rpx">
     <view style="display:flex;justify-content:space-between;margin-bottom:8rpx">
       <text style="font-size:24rpx;color:#999">采购进度</text>
-      <text style="font-size:24rpx;color:#C9956C">{{items.filter(i=>i.purchased).length}}/{{items.length}}</text>
+      <text style="font-size:24rpx;color:#C9956C">{{purchasedCount}}/{{items.length}}</text>
     </view>
     <view class="progress-bar">
-      <view class="progress-fill" style="width:{{items.length?items.filter(i=>i.purchased).length/items.length*100:0}}%"></view>
+      <view class="progress-fill" style="width:{{purchasedPct}}%"></view>
     </view>
   </view>
 </view>

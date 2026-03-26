@@ -47,7 +47,9 @@ Page({
   async loadItems() {
     const items = await query('tasks', { module: 'registration' })
     items.sort((a, b) => (a.order || 0) - (b.order || 0))
-    this.setData({ items })
+    const completedCount = items.filter(i => i.completed).length
+    const progressPct = items.length ? Math.round(completedCount / items.length * 100) : 0
+    this.setData({ items, completedCount, progressPct })
   },
 
   switchTab(e) {
